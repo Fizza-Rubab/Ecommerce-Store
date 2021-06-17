@@ -1,4 +1,5 @@
 import React from "react";
+import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
@@ -33,15 +34,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh",
+    // minHeight: "100vh",
   },
   main: {
     marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0),
   },
   footer: {
-    padding: theme.spacing(3, 2),
-    marginTop: "auto",
+    padding: theme.spacing(1, 2),
+    marginTop: "2",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.contrastText,
   },
@@ -60,17 +61,33 @@ export default function StickyFooter() {
           alignItems="center"
           justify="center"
         >
-          <Grid item xs="3">
+          <Grid item align="center" float="center" xs="4">
+            <Avatar alt="Logo" src="../static/img/logo.png" />
+          </Grid>
+          <Grid item xs="4">
             <List dense>
-              <ListItem button>
-                <ListItemText align="center" primary="Sent mail" />
+              <ListItem>
+                <ListItemText align="center" primary="Phone: 03222336019" />
               </ListItem>
-              <ListItem button>
-                <ListItemText align="center" primary="Drafts" />
+              <ListItem>
+                <ListItemText
+                  align="center"
+                  primary="Email: theshoeshop@mail.org"
+                />
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs="6">
+          <Grid item xs="4">
+            <List dense>
+              <ListItem button>
+                <ListItemText align="center" primary="About" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText align="center" primary="Contact Us" />
+              </ListItem>
+            </List>
+          </Grid>
+          <Grid item xs="12">
             <Box display="flex" justifyContent="center" alignItems="center">
               <IconButton color="inherit">
                 <FacebookIcon />

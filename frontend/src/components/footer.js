@@ -62,7 +62,7 @@ export default function StickyFooter() {
           justify="center"
         >
           <Grid item align="center" float="center" xs="4">
-            <Avatar alt="Logo" src="../static/img/logo.png" />
+            <Avatar alt="Logo" src="/static/img/logo.png" />
           </Grid>
           <Grid item xs="4">
             <List dense>

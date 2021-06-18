@@ -1,161 +1,118 @@
-import React from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import Link from "@material-ui/core/Link";
-import MenuIcon from "@material-ui/icons/Menu";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import React, { useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Badge,
+  Typography,
+} from "@material-ui/core";
+import { ShoppingCart } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: ["Chilanka", "cursive"].join(","),
-  },
-});
+import { makeStyles, fade } from "@material-ui/core/styles";
 const drawerWidth = 0;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    paddingBottom: theme.spacing(6),
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar,
-  },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: "none",
+    boxShadow: "none",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.dark,
   },
   title: {
     flexGrow: 1,
+    alignItems: "center",
+    display: "flex",
+    textDecoration: "none",
   },
-  drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+  image: {
+    marginRight: "10px",
   },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
+  menuButton: {
+    marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9),
+      display: "none",
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
+  grow: {
     flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
   },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "auto",
+    },
   },
-  paper: {
-    padding: theme.spacing(2),
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
     display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  fixedHeight: {
-    height: 240,
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
   },
 }));
 
-export default function Dashboard() {
+export default function PrimarySearchAppBar() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}
-        >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              fontFamily="monospace"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              The Shoe Shop
-            </Typography>
+    <>
+      <AppBar position="fixed" className={classes.appBar} color="inherit">
+        <Toolbar>
+          <Typography
+            to="/"
+            variant="h6"
+            className={classes.title}
+            color="inherit"
+          >
+            <img
+              src="/static/img/logo.png"
+              alt="commerce.js"
+              height="50px"
+              className={classes.image}
+            />{" "}
+            The Shoe Shop
+          </Typography>
+          <div className={classes.grow} />
+          {/* {location.pathname === "/" && ( */}
+          <div className={classes.button}>
             <IconButton color="inherit">
-              <Badge color="secondary">
-                <AccountCircleIcon />
+              <AccountCircleIcon />
+            </IconButton>
+            <IconButton to="/cart" aria-label="Show cart items" color="inherit">
+              <Badge badgeContent="3" color="secondary">
+                <ShoppingCart />
               </Badge>
             </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </div>
-    </ThemeProvider>
+          </div>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 }

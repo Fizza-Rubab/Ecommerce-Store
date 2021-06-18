@@ -1,5 +1,4 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
@@ -62,7 +61,7 @@ export default function StickyFooter() {
           justify="center"
         >
           <Grid item align="center" float="center" xs="4">
-            <Avatar alt="Logo" src="/static/img/logo.png" />
+            <img alt="Logo" src="/static/img/logo.png" height="80px" />
           </Grid>
           <Grid item xs="4">
             <List dense>

@@ -25,12 +25,12 @@ const User = db.define(
     },
     seller: {
       type: Sequelize.BOOL,
-      default: false,
+      defaultValue: false,
     },
   },
   {}
 );
 
-Item.sync({ alter: true }).then(() => console.log("User table connected"));
+User.sync({ alter: true }).then(() => console.log("User table connected"));
 
-module.exports = Item;
+module.exports = User;

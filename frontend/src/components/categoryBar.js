@@ -7,14 +7,14 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Box from "@material-ui/core/Box";
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.info.light,
+    backgroundColor: theme.palette.primary.dark,
     display: "flex",
     justifyContent: "center",
     height: theme.spacing(3),
-    color: theme.palette.grey[800],
+    color: theme.palette.primary.contrastText,
     fontWeight: theme.typography.fontWeightBold,
     "&:hover, &:focus": {
-      backgroundColor: theme.palette.grey[300],
+      backgroundColor: theme.palette.primary.light,
     },
     "&:active": {
       boxShadow: theme.shadows[1],
@@ -30,7 +30,12 @@ function handleClick(event) {
 
 export default function CategoryBar() {
   return (
-    <Box display="flex" justifyContent="center">
+    <Box
+      display="flex"
+      marginTop="50px"
+      marginBottom="8px"
+      justifyContent="center"
+    >
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -39,7 +44,6 @@ export default function CategoryBar() {
           component="a"
           href="#"
           label="Formal Foot-wear"
-          icon={<HomeIcon fontSize="small" />}
           onClick={handleClick}
         />
         <StyledBreadcrumb

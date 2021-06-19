@@ -1,9 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import AppBar from "./appbar";
-import ProductGridList from "./products/products";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import CategoryBar from "./categoryBar";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
@@ -86,9 +86,8 @@ export default function Home() {
   const classes = useStyles();
   return (
     <>
-      <AppBar />
-      {/* <CheckOutForm></CheckOutForm> */}
       <main>
+        <CategoryBar />
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography
@@ -128,6 +127,7 @@ export default function Home() {
             </div>
           </Container>
         </div>
+        {/* <CategoryBar /> */}
       </main>
     </>
   );

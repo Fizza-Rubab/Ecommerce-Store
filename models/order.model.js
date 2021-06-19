@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
 
-const Cart = db.define(
-  "cart",
+const Order = db.define(
+  "order",
   {
     ordered: {
       type: Sequelize.BOOLEAN,
@@ -24,6 +24,6 @@ const Cart = db.define(
   {}
 );
 
-Cart.sync({ alter: true }).then(() => console.log("Cart table connected"));
+Order.sync({ alter: true }).then(() => console.log("Cart table connected"));
 
-module.exports = Cart;
+module.exports = Order;

@@ -4,7 +4,7 @@ const { catchErrors } = require("../errorHandlers");
 
 const {
   findAllItems,
-} = require("../controllers/cartController");
+} = require("../controllers/orderController");
 
 router.get("/", catchErrors(findAllItems));
 

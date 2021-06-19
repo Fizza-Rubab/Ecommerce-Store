@@ -7,12 +7,18 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 
 import Typography from "@material-ui/core/Typography";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
+  },
+  main: {
+    marginTop: theme.spacing(12),
+    paddingTop: theme.spacing(5),
+    paddingLeft: theme.spacing(2),
   },
   body: {
     fontSize: 14,
@@ -58,17 +64,20 @@ const rows = [
   },
 ];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
-});
+  main: {
+    marginTop: theme.spacing(4),
+  },
+}));
 
 export default function OrderHistory() {
   const classes = useStyles();
 
   return (
-    <>
+    <div className={classes.main}>
       <Typography component="h1" variant="h5" align="center">
         Your Past Ordered Items History
       </Typography>
@@ -102,6 +111,6 @@ export default function OrderHistory() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 }

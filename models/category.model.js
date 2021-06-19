@@ -13,6 +13,6 @@ const Category = db.define(
   {}
 );
 
-Category.sync({ alter: true }).then(() => console.log("Category table connected"));
+// Category.sync({ alter: true }).then(() => console.log("Category table connected"));
 
 module.exports = Category;

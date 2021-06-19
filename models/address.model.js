@@ -28,6 +28,12 @@ const Address = db.define(
   {}
 );
 
-Address.sync({ alter: true }).then(() => console.log("User table connected"));
+// Address.sync({ alter: true }).then(() => console.log("User table connected"));
+
+Address.associate = (models) => {
+  Address.belongsTo(models.User, {
+    foreignKey: 'user_id',
+  });
+};
 
 module.exports = Address;

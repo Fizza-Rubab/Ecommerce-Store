@@ -16,13 +16,24 @@ const Item = db.define(
       type: Sequelize.FLOAT,
       allowNull: false,
     },
-    description: {
-      type: Sequelize.TEXT,
-    },
+    description: Sequelize.TEXT,
   },
   {}
 );
 
-Item.sync({ alter: true }).then(() => console.log("Item table connected"));
+// Item.sync({ alter: true }).then(() => console.log("Item table connected"));
+
+Item.associate = (models) => {
+  Item.belongsTo(models.Category, {
+    foreignKey: 'category_id',
+  });
+  Item.belongsTo(models.User, {
+    foreignKey: 'seller_id',
+  });
+  Order.belongsToMany(models.Order, {
+    through: models.Order_Item,
+    foreignKey: item_id,
+  });
+};
 
 module.exports = Item;

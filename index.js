@@ -19,9 +19,13 @@ db.authenticate()
     console.error("Unable to connect to the database:", err);
   });
 
-const usersRouter = require("./routes/item");
+const itemsRouter = require("./routes/item");
 
-app.use("/api/item", usersRouter);
+app.use("/api/item", itemsRouter);
+
+const usersRouter = require("./routes/user");
+
+app.use("/api/users", usersRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

@@ -22,6 +22,7 @@ const Address = db.define(
     },
     country: {
       type: Sequelize.STRING(20),
+      allowNull: false,
     },
   },
   {}

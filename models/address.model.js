@@ -5,7 +5,7 @@ const Address = db.define(
   "address",
   {
     default: {
-      type: Sequelize.BOOL,
+      type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
     streetAddress: {

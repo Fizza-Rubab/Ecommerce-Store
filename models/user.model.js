@@ -24,7 +24,7 @@ const User = db.define(
       allowNull: false,
     },
     seller: {
-      type: Sequelize.BOOL,
+      type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
   },

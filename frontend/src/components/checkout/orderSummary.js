@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -32,7 +33,7 @@ const payments = [
 const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: theme.palette.grey[300],
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(8),
     paddingLeft: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(2),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
@@ -109,6 +113,15 @@ export default function Summary() {
               </Grid>
             </Grid>
           </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Confirm Purchase
+          </Button>
         </div>
       </Container>
     </>

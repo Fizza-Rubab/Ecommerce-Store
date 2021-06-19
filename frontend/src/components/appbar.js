@@ -14,6 +14,7 @@ const drawerWidth = 0;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
+    marginBottom: theme.spacing(10),
     boxShadow: "none",
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
     [theme.breakpoints.up("sm")]: {
@@ -82,37 +83,35 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   return (
-    <>
-      <AppBar position="fixed" className={classes.appBar} color="inherit">
-        <Toolbar>
-          <Typography
-            to="/"
-            variant="h6"
-            className={classes.title}
-            color="inherit"
-          >
-            <img
-              src="/static/img/logo.png"
-              alt="commerce.js"
-              height="50px"
-              className={classes.image}
-            />{" "}
-            The Shoe Shop
-          </Typography>
-          <div className={classes.grow} />
-          {/* {location.pathname === "/" && ( */}
-          <div className={classes.button}>
-            <IconButton color="inherit">
-              <AccountCircleIcon />
-            </IconButton>
-            <IconButton to="/cart" aria-label="Show cart items" color="inherit">
-              <Badge badgeContent="3" color="secondary">
-                <ShoppingCart />
-              </Badge>
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </>
+    <AppBar position="fixed" className={classes.appBar} color="inherit">
+      <Toolbar>
+        <Typography
+          to="/"
+          variant="h6"
+          className={classes.title}
+          color="inherit"
+        >
+          <img
+            src="/static/img/logo.png"
+            alt="commerce.js"
+            height="50px"
+            className={classes.image}
+          />{" "}
+          The Shoe Shop
+        </Typography>
+        <div className={classes.grow} />
+        {/* {location.pathname === "/" && ( */}
+        <div className={classes.button}>
+          <IconButton color="inherit">
+            <AccountCircleIcon />
+          </IconButton>
+          <IconButton to="/cart" aria-label="Show cart items" color="inherit">
+            <Badge badgeContent="3" color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }

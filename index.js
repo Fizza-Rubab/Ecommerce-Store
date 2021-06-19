@@ -27,6 +27,10 @@ const usersRouter = require("./routes/user");
 
 app.use("/api/users", usersRouter);
 
+const cartRouter = require("./routes/user");
+
+app.use("/api/cart", cartRouter);
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

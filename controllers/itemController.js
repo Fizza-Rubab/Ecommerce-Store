@@ -1,4 +1,4 @@
-const { map } = require("bluebird");
+// const { map } = require("bluebird");
 const { Item, Category } = require("../models");
 
 exports.findAllItems = async (req, res) => {

@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const history = useHistory();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -87,13 +89,11 @@ export default function Login() {
                 })
                 .then((res) => {
                   localStorage.setItem("E_Token", res.data.token);
-                  console.log(res.data);
+                  history.push("/home");
                 })
                 .catch((error) => {
                   console.log(error);
                 });
-
-              window.location.href = "http://localhost:3000/home";
             }}
           >
             <TextField

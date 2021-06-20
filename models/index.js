@@ -1,14 +1,15 @@
+const Sequelize = require("sequelize");
 const db = require("../config/db");
 
 const models = {
-  User: db.import("./user.model"),
-  Item: db.import("./item.model"),
-  Category: db.import("./category.model"),
-  Address: db.import("./address.model"),
-  Image: db.import("./image.model"),
-  Order: db.import("./order.model"),
-  Order_Item: db.import("./order_item.model"),
-  Payment: db.import("./payment.model"),
+  User: require("./user.model")(Sequelize, db),
+  Item: require("./item.model")(Sequelize, db),
+  Category: require("./category.model")(Sequelize, db),
+  Address: require("./address.model")(Sequelize, db),
+  Image: require("./image.model")(Sequelize, db),
+  Order: require("./order.model")(Sequelize, db),
+  Order_Item: require("./order_item.model")(Sequelize, db),
+  Payment: require("./payment.model")(Sequelize, db),
 };
 
 Object.keys(models).forEach((modelName) => {

@@ -1,36 +1,36 @@
-const Sequelize = require("sequelize");
-const db = require("../config/db");
-
-const User = db.define(
-  "user",
-  {
-    userName: {
-      type: Sequelize.STRING(64),
-      allowNull: false,
-      unique: true,
-    },
-    email: {
-      type: Sequelize.STRING(64),
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: {
-          msg: "Must be a valid email",
+module.exports = (Sequelize, db) => {
+  const User = db.define(
+    "user",
+    {
+      userName: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+        unique: true,
+      },
+      email: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: {
+            msg: "Must be a valid email",
+          },
         },
       },
+      password: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+      },
+      seller: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     },
-    password: {
-      type: Sequelize.STRING(64),
-      allowNull: false,
-    },
-    seller: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
-    },
-  },
-  {}
-);
+    {}
+  );
 
-// User.sync({ alter: true }).then(() => console.log("User table connected"));
+  return User;
 
-module.exports = User;
+  // User.sync({ alter: true }).then(() => console.log("User table connected"));
+};
+

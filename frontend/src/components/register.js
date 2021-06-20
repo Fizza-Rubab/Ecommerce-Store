@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+// import u
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const [state, setState] = useState({ userName: "", email: "", password: "" });
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -56,6 +57,9 @@ export default function SignUp() {
                 id="userName"
                 label="User Name"
                 autoFocus
+                onChange={(event) => {
+                  setState({ userName: event.target.value });
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -67,6 +71,9 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(event) => {
+                  setState({ email: event.target.value });
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -79,6 +86,9 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(event) => {
+                  setState({ password: event.target.value });
+                }}
               />
             </Grid>
           </Grid>
@@ -88,6 +98,25 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={(e) => {
+              e.preventDefault();
+              const userObject = {
+                userName: state.userName,
+                email: state.email,
+                password: state.password,
+              };
+
+              axios
+                .post("http://localhost:5000/users/add", userObject)
+                .then((res) => {
+                  console.log(res.data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+
+              setState({ name: "", email: "" });
+            }}
           >
             Sign Up
           </Button>

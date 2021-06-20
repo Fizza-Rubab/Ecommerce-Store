@@ -56,7 +56,7 @@ export default function App() {
             }}
           />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/products/:productSlug" component={ProductPage} />
+          <Route exact path="/products/:id" component={ProductPage} />
           <Route
             exact
             path="/products"

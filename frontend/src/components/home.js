@@ -43,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-const categories = [
-  { id: 1, name: "Ladies" },
-  { id: 2, name: "Men Footwear" },
-];
+// const categories = [
+//   { id: 1, name: "Ladies" },
+//   { id: 2, name: "Men Footwear" },
+// ];
 // const prod = [
 //   {
 //     img: "/static/img/logo.png",
@@ -90,6 +90,8 @@ export default function Home() {
   const classes = useStyles();
   let history = useHistory();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     const token = window.localStorage.getItem("E_Token");
     console.log("Hey I m a ", token);
@@ -98,7 +100,16 @@ export default function Home() {
     axios
       .get(`http://localhost:5000/api/item/`)
       .then((res) => {
-        setProducts(res.data.items);
+        setProducts(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    axios
+      .get(`http://localhost:5000/api/categories/`)
+      .then((res) => {
+        // console.log(res);
+        setCategories(res.data);
       })
       .catch(function (error) {
         console.log(error);

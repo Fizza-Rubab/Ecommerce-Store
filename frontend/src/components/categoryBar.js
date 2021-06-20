@@ -28,8 +28,7 @@ function handleClick(event) {
   console.info("You clicked a breadcrumb.");
 }
 
-// const categories = {};
-export default function CategoryBar(categories) {
+export default function CategoryBar({ categories }) {
   return (
     <Box
       display="flex"

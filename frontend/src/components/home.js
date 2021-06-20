@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -42,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-
+const categories = [
+  { id: 1, name: "Ladies" },
+  { id: 2, name: "Men Footwear" },
+];
 const prod = [
   {
     img: "/static/img/logo.png",
@@ -85,11 +88,17 @@ const prod = [
 export default function Home() {
   const classes = useStyles();
   let history = useHistory();
-
+  useEffect(() => {
+    const token = window.localStorage.getItem("E_Token");
+    console.log("Hey I m a ", token);
+    if (!token) history.push("/login");
+    // else history.push("/home");
+    //eslint-disable-next-line
+  }, []);
   return (
     <>
       <main>
-        <CategoryBar />
+        <CategoryBar categories={categories} />
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -60,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -73,7 +76,26 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              axios
+                .post("http://localhost:5000/api/users/login", {
+                  email,
+                  password,
+                })
+                .then((res) => {
+                  localStorage.setItem("E_Token", res.data.token);
+                  console.log(res.data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+
+              window.location.href = "http://localhost:3000/home";
+            }}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -84,6 +106,9 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
             />
             <TextField
               variant="outlined"
@@ -95,6 +120,9 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
             />
             <Button
               type="submit"
@@ -107,7 +135,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="http://localhost:3000/register" variant="body2">
                   {"Don't have an account yet? Sign Up"}
                 </Link>
               </Grid>

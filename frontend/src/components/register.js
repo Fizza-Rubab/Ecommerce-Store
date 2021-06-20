@@ -7,10 +7,14 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+
+import axios from "axios";
+// import
 // import u
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const [state, setState] = useState({ userName: "", email: "", password: "" });
+  const history = useHistory();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,7 +53,27 @@ export default function SignUp() {
         <Typography component="h1" variant="h5" align="center">
           Sign up to begin your Shoe Shopping Spree!
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          onSubmit={(e) => {
+            e.preventDefault();
+            axios
+              .post("http://localhost:5000/api/users/register", {
+                userName,
+                email,
+                password,
+              })
+              .then((res) => {
+                localStorage.setItem("E_Token", res.data.token);
+                history.push("/home");
+                // console.log(res.data);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            // setState({ name: "", email: "" });
+          }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
@@ -58,7 +86,7 @@ export default function SignUp() {
                 label="User Name"
                 autoFocus
                 onChange={(event) => {
-                  setState({ userName: event.target.value });
+                  setUserName(event.target.value);
                 }}
               />
             </Grid>
@@ -72,7 +100,7 @@ export default function SignUp() {
                 name="email"
                 autoComplete="email"
                 onChange={(event) => {
-                  setState({ email: event.target.value });
+                  setEmail(event.target.value);
                 }}
               />
             </Grid>
@@ -87,7 +115,7 @@ export default function SignUp() {
                 id="password"
                 autoComplete="current-password"
                 onChange={(event) => {
-                  setState({ password: event.target.value });
+                  setPassword(event.target.value);
                 }}
               />
             </Grid>
@@ -98,25 +126,6 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={(e) => {
-              e.preventDefault();
-              const userObject = {
-                userName: state.userName,
-                email: state.email,
-                password: state.password,
-              };
-
-              axios
-                .post("http://localhost:5000/users/add", userObject)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-
-              setState({ name: "", email: "" });
-            }}
           >
             Sign Up
           </Button>

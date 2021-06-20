@@ -1,11 +1,11 @@
-// const { map } = require("bluebird");
-const { Item, Category } = require("../models");
+const { Item, Category, Image } = require("../models");
 
 exports.findAllItems = async (req, res) => {
   const items = await Item.findAll({ include: [Category] });
   items.map((item) => {
     item["image"] = Image.findOne({ where: { item_id: item.id } });
   });
+  res.json(items);
 };
 
 exports.findAllItemsCategory = async (req, res) => {

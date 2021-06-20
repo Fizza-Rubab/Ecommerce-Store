@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CategoryBar from "./categoryBar";
-
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
+import Products from "./products/products";
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -46,52 +47,62 @@ const categories = [
   { id: 1, name: "Ladies" },
   { id: 2, name: "Men Footwear" },
 ];
-const prod = [
-  {
-    img: "/static/img/logo.png",
-    name: "Logo",
-    description: "Description",
-    price: "3300",
-  },
-  {
-    img: "/static/img/shoes.png",
-    name: "Women",
-    description: "Description",
-    price: "33900",
-  },
-  {
-    img: "/static/img/shoes.png",
-    name: "Womedsin n",
-    description: "Description",
-    price: "33900",
-  },
-  {
-    img: "/static/img/logo.png",
-    name: "Logo",
-    description: "Description",
-    price: "3300",
-  },
-  {
-    img: "/static/img/logo.png",
-    name: "Logo",
-    description: "Description",
-    price: "3300",
-  },
-  {
-    img: "/static/img/logo.png",
-    name: "Logo",
-    description: "Description",
-    price: "3300",
-  },
-];
+// const prod = [
+//   {
+//     img: "/static/img/logo.png",
+//     name: "Logo",
+//     description: "Description",
+//     price: "3300",
+//   },
+//   {
+//     img: "/static/img/shoes.png",
+//     name: "Women",
+//     description: "Description",
+//     price: "33900",
+//   },
+//   {
+//     img: "/static/img/shoes.png",
+//     name: "Womedsin n",
+//     description: "Description",
+//     price: "33900",
+//   },
+//   {
+//     img: "/static/img/logo.png",
+//     name: "Logo",
+//     description: "Description",
+//     price: "3300",
+//   },
+//   {
+//     img: "/static/img/logo.png",
+//     name: "Logo",
+//     description: "Description",
+//     price: "3300",
+//   },
+//   {
+//     img: "/static/img/logo.png",
+//     name: "Logo",
+//     description: "Description",
+//     price: "3300",
+//   },
+// ];
 
 export default function Home() {
   const classes = useStyles();
   let history = useHistory();
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     const token = window.localStorage.getItem("E_Token");
     console.log("Hey I m a ", token);
     if (!token) history.push("/login");
+
+    axios
+      .get(`http://localhost:5000/api/item/`)
+      .then((res) => {
+        setProducts(res.data.items);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     //eslint-disable-next-line
   }, []);
   return (
@@ -146,6 +157,7 @@ export default function Home() {
           </Container>
         </div>
         {/* <CategoryBar /> */}
+        <Products products={products} />
       </main>
     </>
   );

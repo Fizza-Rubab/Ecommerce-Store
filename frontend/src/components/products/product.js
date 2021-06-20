@@ -35,7 +35,7 @@ export default function Product({ product }) {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={product.img}
+        image="/static/img/shoes.png"
         title={product.name}
       />
       <CardContent>

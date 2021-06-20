@@ -35,6 +35,9 @@ const categoryRouter = require("./routes/category");
 
 app.use("/api/categories", categoryRouter);
 
+const checkoutRouter = require("./routes/checkout");
+
+app.use("/api/checkout", checkoutRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

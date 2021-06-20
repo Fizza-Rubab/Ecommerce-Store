@@ -4,7 +4,7 @@ module.exports = (Sequelize, db) => {
     {
       timeStarted: Sequelize.DATE,
       timeFinished: Sequelize.DATE,
-      shipmentType: Sequelize.CHAR,
+      shipmentType: Sequelize.STRING(1),
       ordered: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

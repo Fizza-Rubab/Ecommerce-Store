@@ -15,9 +15,6 @@ module.exports = (Sequelize, db) => {
         type: Sequelize.STRING(5),
         allowNull: false,
       },
-      ordered: {
-        type: Sequelize.BOOLEAN,
-      },
     },
     {}
   );

@@ -16,6 +16,7 @@ Object.keys(models).forEach((modelName) => {
   if ("associate" in models[modelName]) {
     models[modelName].associate(models);
   }
+  models[modelName].sync({ alter: true }).then(() => console.log(`${modelName} table connected`));
 });
 
 models.sequelize = db;

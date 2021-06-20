@@ -14,8 +14,8 @@ exports.findItem = async (req, res) => {
 };
 
 exports.addItem = async (req, res) => {
-  const { name, quantity, price, description } = req.body;
-  const newItem = new Item({ name, quantity, price, description });
+  const { name, quantity, price, description, seller_id, category_id } = req.body;
+  const newItem = new Item({ name, quantity, price, description, seller_id, category_id });
   newItem
     .save()
     .then(() => res.json({ item: newItem }))

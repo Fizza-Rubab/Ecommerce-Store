@@ -23,10 +23,10 @@ module.exports = (Sequelize, db) => {
 
   Item.associate = (models) => {
     Item.belongsTo(models.Category, {
-      foreignKey: "category_id",
+      foreignKey: {name:"category_id", allowNull: true},
     });
     Item.belongsTo(models.User, {
-      foreignKey: "seller_id",
+      foreignKey: {name:"seller_id", allowNull: true},
     });
     Item.belongsToMany(models.Order, {
       through: models.Order_Item,

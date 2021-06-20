@@ -1,4 +1,4 @@
-let User = require("../models/user.model");
+const { User } = require("../models");
 const sha256 = require("js-sha256");
 const jwt = require("jwt-then");
 
@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
   const userExists = await User.findOne({
     where: { email, userName },
   });
-  console.log(userExists);
+
   if (userExists) throw "User with same username and email already exists";
 
   const user = new User({

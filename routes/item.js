@@ -4,7 +4,7 @@ const { catchErrors } = require("../errorHandlers");
 const {
   findAllItems,
   findItem,
-  addItem,   
+  addItem,
   findAllItemsCategory,
   addImage,
 } = require("../controllers/itemController");
@@ -19,5 +19,8 @@ router.get("/:id", catchErrors(findItem));
 
 router.post("/add", catchErrors(addItem));
 
+module.exports = (upload) => {
+  router.post("/addImage/:id", upload.array("images", 10),catchErrors(addImage));
 
-module.exports = router;
+  return router;
+};

@@ -15,6 +15,7 @@ exports.findAllItemsCategory = async (req, res) => {
 };
 
 exports.addImage = async (req, res) => {
+  console.log(req.files);
   const { imageType, imageName, imageData } = await req.body;
   const image = new Image({ imageType, imageName, imageData, item_id: id });
   image.save();

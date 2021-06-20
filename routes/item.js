@@ -6,9 +6,12 @@ const {
   findAllItems,
   findItem,
   addItem,   
+  findAllItemsCategory,
 } = require("../controllers/itemController");
 
 router.get("/", catchErrors(findAllItems));
+
+router.get("/category/:id", catchErrors(findAllItemsCategory));
 
 router.get("/:id", catchErrors(findItem));
 

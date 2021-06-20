@@ -1,7 +1,13 @@
-const { Item } = require("../models");
+const { Item, Category } = require("../models");
 
 exports.findAllItems = async (req, res) => {
-  await Item.findAll()
+  await Item.findAll({include: [Category]})
+    .then((items) => res.json(items))
+    .catch((err) => res.status(400).json({ Error: err }));
+};
+
+exports.findAllItemsCategory = async (req, res) => {
+  await Item.findAll({where: {category_id:id}, include: [Category]})
     .then((items) => res.json(items))
     .catch((err) => res.status(400).json({ Error: err }));
 };

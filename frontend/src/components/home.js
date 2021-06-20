@@ -92,7 +92,6 @@ export default function Home() {
     const token = window.localStorage.getItem("E_Token");
     console.log("Hey I m a ", token);
     if (!token) history.push("/login");
-    // else history.push("/home");
     //eslint-disable-next-line
   }, []);
   return (

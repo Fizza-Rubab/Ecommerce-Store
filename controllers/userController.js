@@ -28,6 +28,7 @@ exports.register = async (req, res) => {
 
   res.json({
     message: `User ${userName} registered successfully!`,
+    token,
   });
 };
 
@@ -48,23 +49,5 @@ exports.login = async (req, res) => {
   res.json({
     message: "User logged in successfully",
     token,
-  });
-};
-
-exports.deleteUser = async (req, res) => {
-  const user = await User.findByIdAndDelete(req.params.id);
-  if (!user) throw "User does not exist";
-  res.json("User successfully deleted");
-};
-
-exports.updateUser = async (req, res) => {
-  var updatedRecord = {
-    userName: req.body.userName,
-    password: req.body.password,
-    phoneNo: req.body.phoneNo,
-  };
-  User.findByIdAndUpdate(req.params.id, { $set: updatedRecord }, (err, doc) => {
-    if (!err) res.json("User UPDATED.");
-    else res.status(400).json("Error: " + err);
   });
 };

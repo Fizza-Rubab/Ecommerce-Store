@@ -31,3 +31,13 @@ exports.findAllItems = async (req, res, next) => {
     .then((order_item) => res.json(order_item))
     .catch((err) => res.status(400).json({ Error: err }));
 };
+
+exports.deleteItems = async (req, res, next) => {
+  const { item_id } = await req.body;
+  const item = await Order_Item.findOne({ where: { item_id } });
+  item.destroy().then(() => {
+    res.status(200).json({
+      message: "User deleted.",
+    });
+  });
+};

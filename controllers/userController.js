@@ -26,6 +26,8 @@ exports.register = async (req, res) => {
 
   await user.save();
 
+  const token = await jwt.sign({ user_id: user.id }, process.env.SECRET);
+
   res.json({
     message: `User ${userName} registered successfully!`,
     token,

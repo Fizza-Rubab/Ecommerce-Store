@@ -17,7 +17,7 @@ Object.keys(models).forEach((modelName) => {
     models[modelName].associate(models);
   }
   models[modelName]
-    .sync({ force: true })
+    .sync()
     .then(() => console.log(`${modelName} table connected`));
 });
 

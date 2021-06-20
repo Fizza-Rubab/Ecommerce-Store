@@ -31,6 +31,11 @@ const cartRouter = require("./routes/cart");
 
 app.use("/api/cart", cartRouter);
 
+const categoryRouter = require("./routes/category");
+
+app.use("/api/categories", categoryRouter);
+
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

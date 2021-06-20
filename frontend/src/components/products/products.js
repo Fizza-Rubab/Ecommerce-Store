@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Products({ products }) {
-  console.log(products);
+  // console.log(products);
   const classes = useStyles();
 
   if (!products.length) return <p>Loading...</p>;

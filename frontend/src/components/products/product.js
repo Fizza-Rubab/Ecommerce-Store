@@ -7,8 +7,11 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import { AddShoppingCart } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import ProductPage from "./productPage";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,6 +34,7 @@ const useStyles = makeStyles(() => ({
 
 export default function Product({ product }) {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <Card className={classes.root}>
       <CardMedia
@@ -57,6 +61,17 @@ export default function Product({ product }) {
       <CardActions disableSpacing className={classes.cardActions}>
         <IconButton aria-label="Add to Cart">
           <AddShoppingCart />
+        </IconButton>
+        <IconButton
+          aria-label="Add to Cart"
+          onClick={() =>
+            history.push({
+              pathname: `/products/${product.id}`,
+              prod: product,
+            })
+          }
+        >
+          <OpenInNewIcon />
         </IconButton>
       </CardActions>
     </Card>

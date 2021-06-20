@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.background.default,
   },
   paper: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
     color: theme.palette.primary.dark,
@@ -51,38 +51,48 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
 }));
-export default function ProductPage({ product }) {
+export default function ProductPage(prod) {
   const classes = useStyles();
   const [value, setValue] = React.useState("cash");
+  const [product, setProduct] = React.useState(prod);
+  console.log(product);
 
-  const handleRadioChange = (event) => {
-    setValue(event.target.value);
-  };
   return (
     <>
-      <Grid container className={classes.paper} spacing={2}>
+      <Grid container className={classes.paper} spacing={4}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h5" align="center">
-            {product.name}
+            {product.location.prod.name}
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Carousel slides={slides} autoplay={true} interval={10000} />;
+          <Carousel
+            slides={slides}
+            autoplay={true}
+            interval={10000}
+            marginTop="100px"
+          />
+          ;
         </Grid>
         <Grid item xs={12} sm={4}>
           <Card className={classes.root}>
-            <CardMedia className={classes.media} title={product.name} />
+            <CardMedia
+              className={classes.media}
+              title={product.location.prod.name}
+            />
             <CardContent>
               <div className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  {product.name}
+                  {product.location.prod.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" component="h2">
-                  $ {product.price}
+                  $ {product.location.prod.price}
                 </Typography>
               </div>
               <Typography
-                dangerouslySetInnerHTML={{ __html: product.description }}
+                dangerouslySetInnerHTML={{
+                  __html: product.location.prod.description,
+                }}
                 variant="body2"
                 color="inherit"
                 component="p"
@@ -97,12 +107,15 @@ export default function ProductPage({ product }) {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      InputLabelProps={{
+                        style: { color: "#fff" },
+                      }}
                       autoComplete="Size"
                       name="size"
                       variant="filled"
                       required
                       fullWidth
-                      color="secondary"
+                      color="#84ffff"
                       id="size"
                       label="Size"
                       autoFocus
@@ -111,9 +124,12 @@ export default function ProductPage({ product }) {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       variant="filled"
-                      color="secondary"
+                      color="#84ffff"
                       required
                       fullWidth
+                      InputLabelProps={{
+                        style: { color: "#fff" },
+                      }}
                       id="quantity"
                       label="Quantity"
                       name="quantity"
@@ -125,7 +141,7 @@ export default function ProductPage({ product }) {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color="primary"
+                  color="#84ffff"
                   className={classes.submit}
                 >
                   Add to Cart!

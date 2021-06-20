@@ -11,7 +11,7 @@ exports.addCategory = async (req, res) => {
   const newCategory = new Category({ name });
   newCategory
     .save()
-    .then(() => res.json({ item: newItem }))
+    .then(() => res.json({ category: newCategory }))
     .catch((err) => res.status(400).json({ Error: err }));
 };
 

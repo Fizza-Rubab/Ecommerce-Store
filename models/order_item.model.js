@@ -3,7 +3,7 @@ module.exports = (Sequelize, db) => {
     "order_item",
     {
       quantity: {
-        type: Sequelize.STRING(64),
+        type: Sequelize.INTEGER,
         defaultValue: 1,
       },
       size: {
@@ -13,8 +13,6 @@ module.exports = (Sequelize, db) => {
     },
     {}
   );
-
-  // Order_Item.sync({ alter: true }).then(() => console.log("Order_Item table connected"));
 
   return Order_Item;
 };

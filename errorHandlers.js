@@ -1,6 +1,3 @@
-// catch errors handler
-
-
 exports.catchErrors = (fn) => {
     return function(req, res, next) {
         fn(req, res, next).catch((err) => {

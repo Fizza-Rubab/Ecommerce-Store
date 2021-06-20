@@ -28,7 +28,8 @@ function handleClick(event) {
   console.info("You clicked a breadcrumb.");
 }
 
-export default function CategoryBar() {
+// const categories = {};
+export default function CategoryBar(categories) {
   return (
     <Box
       display="flex"
@@ -40,30 +41,15 @@ export default function CategoryBar() {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        <StyledBreadcrumb
-          component="a"
-          href="#"
-          label="Formal Foot-wear"
-          onClick={handleClick}
-        />
-        <StyledBreadcrumb
-          component="a"
-          href="#"
-          label="Traditional"
-          onClick={handleClick}
-        />
-        <StyledBreadcrumb
-          component="a"
-          href="#"
-          label="Women's Choice"
-          onClick={handleClick}
-        />
-        <StyledBreadcrumb
-          component="a"
-          href="#"
-          label="Men's Pick"
-          onClick={handleClick}
-        />
+        {categories.map((category) => (
+          <StyledBreadcrumb
+            key={category.id}
+            component="a"
+            href="#"
+            label={category.name}
+            onClick={handleClick}
+          />
+        ))}
       </Breadcrumbs>
     </Box>
   );

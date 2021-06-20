@@ -2,18 +2,9 @@ module.exports = (Sequelize, db) => {
   const Order = db.define(
     "order",
     {
-      timeStarted: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      timeFinished: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      shipmentType: {
-        type: Sequelize.CHAR,
-        allowNull: false,
-      },
+      timeStarted: Sequelize.DATE,
+      timeFinished: Sequelize.DATE,
+      shipmentType: Sequelize.CHAR,
       ordered: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

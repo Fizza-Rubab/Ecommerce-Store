@@ -2,14 +2,14 @@ const router = require("express").Router();
 const { catchErrors } = require("../errorHandlers");
 
 const {
-    findAllCategories,
-    addCategory,
-    deleteCategory,
+  findAllCategories,
+  addCategory,
+  deleteCategory,
 } = require("../controllers/categoryController");
 
 router.get("/", catchErrors(findAllCategories));
 
-router.get("/add", catchErrors(addCategory));
+router.post("/add", catchErrors(addCategory));
 
 router.get("/delete", catchErrors(deleteCategory));
 

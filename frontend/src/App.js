@@ -43,19 +43,10 @@ const prod = [
 ];
 export default function App() {
   const [state, setState] = useState({ categories: [] });
-  // getCategories = () => {
-  //   fetch("/api/categories", { method: "GET" })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setState({
-  //         categories: data,
-  //       });
-  //     });
-  // };
   return (
     <div>
-      <AppBar />,
       <Router>
+        <AppBar />
         <Switch>
           <Route
             exact
@@ -80,47 +71,8 @@ export default function App() {
           <Route exact path="/about" component={About} />
           <Route exact path="/user/order-history" component={OrderHistory} />
         </Switch>
+        <Footer />
       </Router>
-      <Footer />
     </div>
   );
 }
-
-// const appDiv = document.getElementById("app");
-// render(<App />, appDiv);
-
-// const cart = [
-//   {
-//     name: "Fizza's shampoo",
-//     img: "/static/img/shoes.png",
-//     price: 300,
-//     quantity: 3,
-//   },
-// ];
-// const cartExists = true;
-
-// function App() {
-//   return (
-//     // <Button variant="contained" color="primary">
-//     //   Hello World
-//     // </Button>
-//     //<CategoryBar />
-//     <>
-//       <AppBar />,{/* <Home /> */}
-//       {/* <ProductPage product={prod} /> */}
-//       {/* <ProductList products={prod} /> */}
-//       {/* <CheckOutForm></CheckOutForm> */}
-//       {/* <Login /> */}
-//       {/* <Register /> */}
-//       {/* <UserProfile /> */}
-//       <OrderHistory />
-//       {/* <Cart /> */}
-//       <Footer />
-//       {/* <Cart cartExists={true} cart={cart} /> */}
-//     </>
-
-//     //
-//   );
-// }
-
-// export default App;

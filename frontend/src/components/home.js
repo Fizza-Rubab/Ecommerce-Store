@@ -6,7 +6,7 @@ import CategoryBar from "./categoryBar";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -84,6 +84,8 @@ const prod = [
 
 export default function Home() {
   const classes = useStyles();
+  let history = useHistory();
+
   return (
     <>
       <main>
@@ -114,12 +116,20 @@ export default function Home() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => history.push("/about")}
+                  >
                     Learn More About Us
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => history.push("/about")}
+                  >
                     Shop Now!
                   </Button>
                 </Grid>

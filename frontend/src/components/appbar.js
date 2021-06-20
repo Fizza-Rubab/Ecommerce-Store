@@ -3,13 +3,16 @@ import {
   AppBar,
   Toolbar,
   IconButton,
+  Button,
   Badge,
   Typography,
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles, fade } from "@material-ui/core/styles";
+import { NavLink, useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+
 const drawerWidth = 0;
 
 const useStyles = makeStyles((theme) => ({
@@ -82,6 +85,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
+  let loggedIn = true;
+  let history = useHistory();
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
       <Toolbar>
@@ -100,16 +105,21 @@ export default function PrimarySearchAppBar() {
           The Shoe Shop
         </Typography>
         <div className={classes.grow} />
-        {/* {location.pathname === "/" && ( */}
         <div className={classes.button}>
-          <IconButton color="inherit">
+          <Button color="inherit" onClick={() => history.push("/user")}>
             <AccountCircleIcon />
-          </IconButton>
-          <IconButton to="/cart" aria-label="Show cart items" color="inherit">
+          </Button>
+          <Button
+            aria-label="Show cart items"
+            color="inherit"
+            onClick={() =>
+              loggedIn ? history.push("/cart") : history.push("/user")
+            }
+          >
             <Badge badgeContent="3" color="secondary">
               <ShoppingCart />
             </Badge>
-          </IconButton>
+          </Button>
         </div>
       </Toolbar>
     </AppBar>

@@ -32,7 +32,7 @@ export default function CategoryBar() {
   return (
     <Box
       display="flex"
-      marginTop="50px"
+      marginTop="75px"
       marginBottom="8px"
       justifyContent="center"
     >

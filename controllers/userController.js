@@ -39,6 +39,11 @@ exports.allUsers = async (req, res) => {
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json({ Error: err }));
 };
+exports.getUser = async (req, res) => {
+  await User.findOne({ where: { id: req.params.id } })
+    .then((user) => res.json(user))
+    .catch((err) => res.status(400).json({ Error: err }));
+};
 
 exports.login = async (req, res) => {
   const { userName, password, email } = req.body;
@@ -54,4 +59,17 @@ exports.login = async (req, res) => {
     message: "User logged in successfully",
     token,
   });
+};
+
+exports.updateUser = async (req, res) => {
+  User.update({ userName: req.body.userName }, { where: { id: req.params.id } })
+    .then(function ([rowsUpdate, [updatedUser]]) {
+      res.json({
+        message: "User updated successfully",
+        token,
+      });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 };

@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +18,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { useHistory } from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -46,19 +50,6 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textPrimary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        The Shoe Shop
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -89,7 +80,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpdateProfile(user) {
   const classes = useStyles();
+  let history = useHistory();
+  const [userName, setUserName] = useState("");
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
 
+  useEffect(() => {
+    if (!token) history.push("/login");
+    axios
+      .get(`http://localhost:5000/api/users/${id}`)
+      .then((res) => {
+        setUserName(res.data.userName);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    //eslint-disable-next-line
+  }, []);
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -99,40 +106,37 @@ export default function UpdateProfile(user) {
           <Typography component="h1" variant="h5" align="center">
             Update your profile {user.userName}
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              axios
+                .put(`http://localhost:5000/api/users/update/${id}`, {
+                  userName: userName,
+                })
+                .then((res) => {
+                  localStorage.setItem("E_Token", res.data.token);
+                  history.push("/home");
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="userName"
                   name="userName"
                   variant="outlined"
-                  required
+                  // required
                   fullWidth
                   id="userName"
-                  label="User Name"
+                  label={userName}
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="password"
-                  label="Password"
-                  name="password"
-                  autoComplete="password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="contact"
-                  label="Contact Number"
-                  name="contactNo"
-                  autoComplete="contact No"
+                  onChange={(event) => {
+                    setUserName(event.target.value);
+                  }}
                 />
               </Grid>
             </Grid>
@@ -151,14 +155,14 @@ export default function UpdateProfile(user) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => {
+              history.push("/user/order-history");
+            }}
           >
             View your order history
           </Button>
         </div>
       </Container>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </>
   );
 }

@@ -37,7 +37,18 @@ exports.deleteItems = async (req, res, next) => {
   const item = await Order_Item.findOne({ where: { item_id } });
   item.destroy().then(() => {
     res.status(200).json({
-      message: "User deleted.",
+      message: "Item deleted",
+    });
+  });
+};
+
+exports.updateItems = async (req, res, next) => {
+  const { item_id, quantity } = await req.body;
+  const item = await Order_Item.findOne({ where: { item_id } });
+  item.quantity = quantity;
+  item.save().then(() => {
+    res.status(200).json({
+      message: "Item updated",
     });
   });
 };

@@ -7,7 +7,7 @@ module.exports = (Sequelize, db) => {
         defaultValue: 1,
       },
       size: {
-        type: Sequelize.CHAR,
+        type: Sequelize.STRING(1),
         defaultValue: "M",
       },
     },

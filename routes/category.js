@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
 
 const {
-    findAllCategories,
-    addCategory,
-    deleteCategory,
+  findAllCategories,
+  addCategory,
+  deleteCategory,
 } = require("../controllers/categoryController");
 
 router.get("/", catchErrors(findAllCategories));

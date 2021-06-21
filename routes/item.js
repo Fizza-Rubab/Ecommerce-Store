@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
 
 const {
   findAllItems,
@@ -26,6 +26,5 @@ module.exports = (upload) => {
     upload.array("images", 10),
     catchErrors(addImage)
   );
-
   return router;
 };

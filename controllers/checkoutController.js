@@ -20,7 +20,7 @@ exports.checkingOut = async (req, res, next) => {
     order.payment_id = payment.id;
   }
   order.timeStarted = new Date();
-  order.timeFinished.setDate(timeStarted.getDate()+3);
+  order.timeFinished.setDate(timeStarted.getDate() + 3);
   order.save();
   res.json(order);
 };

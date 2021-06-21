@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middlewares/auth");
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
 
 const {
   findAllItems,
@@ -17,6 +17,4 @@ router.delete("/delete", auth, catchErrors(deleteItems));
 
 router.put("/update", auth, catchErrors(updateItems));
 
-
 module.exports = router;
-

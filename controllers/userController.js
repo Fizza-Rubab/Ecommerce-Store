@@ -20,8 +20,8 @@ exports.register = async (req, res) => {
   const user = new User({
     userName,
     email,
-    password: sha256(password + process.env.SALT),
-    seller
+    password: sha256(password + process.env.SECRET),
+    seller,
   });
 
   await user.save();
@@ -42,7 +42,9 @@ exports.allUsers = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { userName, password, email } = req.body;
-  const user = await User.findOne({ where: { userName, password: sha256(password + process.env.SALT), }});
+  const user = await User.findOne({
+    where: { userName, password: sha256(password + process.env.SECRET) },
+  });
 
   if (!user) throw "incorrect username and password entered";
 

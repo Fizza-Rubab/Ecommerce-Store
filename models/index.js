@@ -10,6 +10,7 @@ const models = {
   Order: require("./order.model")(Sequelize, db),
   Order_Item: require("./order_item.model")(Sequelize, db),
   Payment: require("./payment.model")(Sequelize, db),
+  Profile: require("./profile.model")(Sequelize, db),
 };
 
 Object.keys(models).forEach((modelName) => {

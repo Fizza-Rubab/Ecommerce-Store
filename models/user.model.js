@@ -29,5 +29,9 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
+  User.associate = (models) => {
+    User.hasOne(models.Profile);
+  };
+
   return User;
 };

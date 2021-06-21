@@ -33,8 +33,8 @@ exports.findAllItems = async (req, res, next) => {
 };
 
 exports.deleteItems = async (req, res, next) => {
-  const { item_id } = await req.body;
-  const item = await Order_Item.findOne({ where: { item_id } });
+  const { item_id, order_id } = await req.body;
+  const item = await Order_Item.findOne({ where: { item_id, order_id } });
   item.destroy().then(() => {
     res.status(200).json({
       message: "Item deleted",

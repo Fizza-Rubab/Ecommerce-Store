@@ -14,6 +14,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,8 +44,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CheckOutForm() {
   const classes = useStyles();
-  const [value, setValue] = React.useState("cash");
-
+  let history = useHistory();
+  const [value, setValue] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [zipcode, setZipCode] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [country, setCountry] = React.useState("");
+  const [cvv, setCVV] = React.useState("");
+  const [expDate, setExpDate] = React.useState("");
+  const [card, setCard] = React.useState("");
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
   const handleRadioChange = (event) => {
     setValue(event.target.value);
   };
@@ -60,30 +71,52 @@ export default function CheckOutForm() {
             Check Out Form
           </Typography>
 
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              axios({
+                method: "post", //you can set what request you want to be
+                url: `http://localhost:5000/api/checkout/`,
+                data: {
+                  streetAddress: address,
+                  zip: zipcode,
+                  city,
+                  country,
+                  cvv,
+                  card,
+                  exp: expDate,
+                  shipmentType: value,
+                },
+                headers: {
+                  authorization: token,
+                },
+              })
+                .then((res) => {
+                  history.push("/home");
+                  console.log(res.data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }}
+          >
             <Grid container spacing={2}>
               &nbsp;&nbsp;Please fill in the following user details first
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
-                  autoComplete="fname"
-                  name="firstName"
+                  autoComplete="username"
+                  name="userName"
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="userName"
+                  label="User Name"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
+                  onChange={(event) => {
+                    setUserName(event.target.value);
+                  }}
                 />
               </Grid>
               &nbsp;&nbsp;Please fill in the following address details!
@@ -96,17 +129,9 @@ export default function CheckOutForm() {
                   label="Address/House No."
                   name="address"
                   autoComplete="address"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="street"
-                  label="Street"
-                  name="street"
-                  autoComplete="street"
+                  onChange={(event) => {
+                    setAddress(event.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -118,6 +143,9 @@ export default function CheckOutForm() {
                   label="Zipcode"
                   name="zipcode"
                   autoComplete="zipcode"
+                  onChange={(event) => {
+                    setZipCode(event.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -129,6 +157,9 @@ export default function CheckOutForm() {
                   label="City"
                   name="city"
                   autoComplete="city"
+                  onChange={(event) => {
+                    setCity(event.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -140,6 +171,9 @@ export default function CheckOutForm() {
                   label="Country"
                   id="country"
                   autoComplete="country"
+                  onChange={(event) => {
+                    setCountry(event.target.value);
+                  }}
                 />
               </Grid>
               <p>Choose your shipment Method </p>
@@ -151,18 +185,18 @@ export default function CheckOutForm() {
                   onChange={handleRadioChange}
                 >
                   <FormControlLabel
-                    value="cash"
+                    value="D"
                     control={<Radio />}
                     label="Cash on delivery"
                   />
                   <FormControlLabel
-                    value="credit"
+                    value="P"
                     control={<Radio />}
                     label="Credit Card Payment"
                   />
                 </RadioGroup>
               </FormControl>
-              {value == "credit" ? (
+              {value == "P" ? (
                 <>
                   &nbsp;&nbsp;Please fill in the following credit details!
                   <Grid item xs={12}>
@@ -174,6 +208,9 @@ export default function CheckOutForm() {
                       label="Credit Card No."
                       name="card"
                       autoComplete="card no"
+                      onChange={(event) => {
+                        setCard(event.target.value);
+                      }}
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -185,6 +222,9 @@ export default function CheckOutForm() {
                       label="CVV"
                       name="cvv"
                       autoComplete="cvv"
+                      onChange={(event) => {
+                        setCVV(event.target.value);
+                      }}
                     />
                   </Grid>
                   <Grid item xs={6} sm={4}>
@@ -196,6 +236,9 @@ export default function CheckOutForm() {
                       label="Expiry Date"
                       name="expDate"
                       autoComplete="expDate"
+                      onChange={(event) => {
+                        setExpDate(event.target.value);
+                      }}
                     />
                   </Grid>{" "}
                 </>

@@ -11,6 +11,6 @@ router.get("/", catchErrors(findAllCategories));
 
 router.post("/add", catchErrors(addCategory));
 
-router.get("/delete", catchErrors(deleteCategory));
+router.delete("/delete/:id", catchErrors(deleteCategory));
 
 module.exports = router;

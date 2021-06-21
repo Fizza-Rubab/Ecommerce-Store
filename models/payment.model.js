@@ -19,8 +19,6 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Order.sync({ alter: true }).then(() => console.log("Order table connected"));
-
   Payment.associate = (models) => {
     Payment.belongsTo(models.User, {
       foreignKey: "user_id",

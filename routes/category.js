@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
+const auth = require("../middlewares/auth");
 
 const {
   findAllCategories,
@@ -9,8 +10,8 @@ const {
 
 router.get("/", catchErrors(findAllCategories));
 
-router.post("/add", catchErrors(addCategory));
+router.post("/add", auth, catchErrors(addCategory));
 
-router.get("/delete", catchErrors(deleteCategory));
+router.delete("/delete/:id", auth, catchErrors(deleteCategory));
 
 module.exports = router;

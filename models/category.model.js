@@ -11,7 +11,5 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Category.sync({ alter: true }).then(() => console.log("Category table connected"));
-
   return Category;
 };

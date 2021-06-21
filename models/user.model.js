@@ -29,8 +29,9 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
+  User.associate = (models) => {
+    User.hasOne(models.Profile);
+  };
+
   return User;
-
-  // User.sync({ alter: true }).then(() => console.log("User table connected"));
 };
-

@@ -7,7 +7,7 @@ module.exports = (Sequelize, db) => {
         allowNull: false,
       },
       imageName: {
-        type: Sequelize.STRING(32),
+        type: Sequelize.STRING(64),
         allowNull: false,
       },
       imageData: {
@@ -17,8 +17,6 @@ module.exports = (Sequelize, db) => {
     },
     {}
   );
-
-  // Image.sync({ alter: true }).then(() => console.log("Image table connected"));
 
   Image.associate = (models) => {
     Image.belongsTo(models.Item, {

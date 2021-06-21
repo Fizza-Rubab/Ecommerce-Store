@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const upload = require("multer")();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,11 +22,11 @@ db.authenticate()
 
 const itemsRouter = require("./routes/item");
 
-app.use("/api/item", itemsRouter);
+app.use("/api/item", itemsRouter(upload));
 
 const usersRouter = require("./routes/user");
 
-app.use("/api/users", usersRouter);
+app.use("/api/users", usersRouter(upload));
 
 const cartRouter = require("./routes/cart");
 

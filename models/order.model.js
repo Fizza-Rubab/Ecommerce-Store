@@ -13,8 +13,6 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Order.sync({ alter: true }).then(() => console.log("Order table connected"));
-
   Order.associate = (models) => {
     Order.belongsTo(models.User, {
       foreignKey: "buyer_id",

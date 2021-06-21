@@ -1,23 +1,34 @@
 const router = require("express").Router();
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
+const auth = require("../middlewares/auth");
 
 const {
   findAllItems,
   findItem,
-  addItem,   
+  addItem,
   findAllItemsCategory,
   addImage,
+  getImages,
+  deleteItem,
 } = require("../controllers/itemController");
 
 router.get("/", catchErrors(findAllItems));
 
 router.get("/category/:id", catchErrors(findAllItemsCategory));
 
-router.get("/addImage/:id", catchErrors(addImage));
-
 router.get("/:id", catchErrors(findItem));
 
-router.post("/add", catchErrors(addItem));
+router.post("/add", auth, catchErrors(addItem));
 
+router.get("/images/:id", catchErrors(getImages));
 
-module.exports = router;
+router.delete("/delete/:id", auth, catchErrors(deleteItem));
+
+module.exports = (upload) => {
+  router.post(
+    "/addImage/:id",
+    [auth, upload.array("images", 10)],
+    catchErrors(addImage)
+  );
+  return router;
+};

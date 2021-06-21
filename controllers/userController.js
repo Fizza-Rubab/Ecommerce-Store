@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Profile } = require("../models");
 const sha256 = require("js-sha256");
 const jwt = require("jwt-then");
 
@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
   const user = new User({
     userName,
     email,
-    password: sha256(password + process.env.SALT),
+    password: sha256(password + process.env.SECRET),
     seller,
   });
 
@@ -48,7 +48,7 @@ exports.getUser = async (req, res) => {
 exports.login = async (req, res) => {
   const { userName, password, email } = req.body;
   const user = await User.findOne({
-    where: { email, password: sha256(password + process.env.SALT) },
+    where: { userName, password: sha256(password + process.env.SECRET) },
   });
 
   if (!user) throw "incorrect username and password entered";
@@ -62,12 +62,43 @@ exports.login = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  User.update({ userName: req.body.userName }, { where: { id: req.params.id } })
-    .then(function ([rowsUpdate, [updatedUser]]) {
+  const id = req.params.id;
+  const token = await jwt.sign({ user_id: id }, process.env.SECRET);
+  User.update({ userName: req.body.userName }, { where: { id } })
+    .then(() => {
       res.json({
         message: "User updated successfully",
         token,
       });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+exports.deleteUser = async (req, res, next) => {
+  const id = req.params.id;
+  const user = await User.findByPk(id);
+  user
+    .destroy()
+    .then(() => {
+      res.json({ message: "user deleted" });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+exports.addImage = async (req, res, next) => {
+  const user_id = req.user;
+  const [profile, created] = await Profile.findOrCreate({ where: { user_id } });
+  profile.imageType = req.file.mimetype;
+  profile.imageName = req.file.originalname;
+  profile.imageData = req.file.buffer;
+  profile
+    .save()
+    .then(() => {
+      res.status(201).json("uploaded");
     })
     .catch((err) => {
       res.json(err);

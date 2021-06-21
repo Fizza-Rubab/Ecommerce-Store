@@ -1,4 +1,4 @@
-const { Order, Item, Order_Item, User } = require("../models");
+const { Order, Item, Order_Item, Payment, Address } = require("../models");
 
 exports.addItems = async (req, res, next) => {
   const { item_id, quantity, size } = await req.body;
@@ -23,6 +23,7 @@ exports.addItems = async (req, res, next) => {
 
   res.status(201).json(order_item);
 };
+
 exports.findAllItems = async (req, res, next) => {
   await Order.findAll({
     where: { ordered: false, buyer_id: req.user },
@@ -33,8 +34,8 @@ exports.findAllItems = async (req, res, next) => {
 };
 
 exports.deleteItems = async (req, res, next) => {
-  const { item_id } = await req.body;
-  const item = await Order_Item.findOne({ where: { item_id } });
+  const { item_id, order_id } = await req.body;
+  const item = await Order_Item.findOne({ where: { item_id, order_id } });
   item.destroy().then(() => {
     res.status(200).json({
       message: "Item deleted",
@@ -43,12 +44,21 @@ exports.deleteItems = async (req, res, next) => {
 };
 
 exports.updateItems = async (req, res, next) => {
-  const { item_id, quantity } = await req.body;
-  const item = await Order_Item.findOne({ where: { item_id } });
+  const { item_id, order_id, quantity } = await req.body;
+  const item = await Order_Item.findOne({ where: { item_id, order_id } });
   item.quantity = quantity;
   item.save().then(() => {
     res.status(200).json({
       message: "Item updated",
     });
   });
+};
+
+exports.orderHistory = async (req, res, next) => {
+  Order.findAll({
+    where: { ordered: false, buyer_id: req.user },
+    include: [Item, Payment, Address],
+  })
+    .then((order) => res.json(order))
+    .catch((err) => res.status(400).json({ Error: err }));
 };

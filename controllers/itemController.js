@@ -1,11 +1,24 @@
-const { map } = require("bluebird");
-const { Item, Category } = require("../models");
+const { Item, Category, Image } = require("../models");
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 exports.findAllItems = async (req, res) => {
-  const items = await Item.findAll({ include: [Category] });
-  items.map((item) => {
-    item["image"] = Image.findOne({ where: { item_id: item.id } });
+  let items = await Item.findAll({
+    include: [Category],
+    raw: true,
+    nest: true,
   });
+  await asyncForEach(items, async (item) => {
+    item.image = await Image.findOne({
+      where: { item_id: item.id },
+      raw: true,
+    });
+  });
+  res.json(items);
 };
 
 exports.findAllItemsCategory = async (req, res) => {
@@ -15,14 +28,27 @@ exports.findAllItemsCategory = async (req, res) => {
 };
 
 exports.addImage = async (req, res) => {
-  console.log(req.files);
-  const { imageType, imageName, imageData } = await req.body;
-  const image = new Image({ imageType, imageName, imageData, item_id: id });
-  image.save();
+  const id = req.params.id;
+  req.files.forEach((file) => {
+    const image = new Image({
+      imageType: file.mimetype,
+      imageName: file.originalname,
+      imageData: file.buffer,
+      item_id: id,
+    });
+    image.save().then();
+  });
+  res.status(201).json("uploaded");
+};
+
+exports.getImages = async (req, res) => {
+  const id = req.params.id;
+  const images = await Image.findAll({ where: { item_id: id } });
+  res.json(images);
 };
 
 exports.findItem = async (req, res) => {
-  const id = await req.params.id;
+  const id = req.params.id;
 
   let item = await Item.findByPk(id);
 

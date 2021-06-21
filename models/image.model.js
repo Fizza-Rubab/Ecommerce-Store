@@ -7,7 +7,7 @@ module.exports = (Sequelize, db) => {
         allowNull: false,
       },
       imageName: {
-        type: Sequelize.STRING(32),
+        type: Sequelize.STRING(64),
         allowNull: false,
       },
       imageData: {

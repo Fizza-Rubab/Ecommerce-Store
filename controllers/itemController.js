@@ -1,4 +1,4 @@
-const { Item, Category, Image } = require("../models");
+const { Item, Category, Image, User } = require("../models");
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -58,8 +58,10 @@ exports.findItem = async (req, res) => {
 };
 
 exports.addItem = async (req, res, next) => {
-  const { name, quantity, price, description, seller_id, category_id } =
-    req.body;
+  const seller_id = req.user;
+  const user = await User.findByPk(seller_id);
+  if (!user.seller) return res.status(401).json({ message: "Unauthorized 👀" });
+  const { name, quantity, price, description, category_id } = req.body;
   const newItem = new Item({
     name,
     quantity,
@@ -78,7 +80,7 @@ exports.deleteItem = async (req, res, next) => {
   const id = req.params.id;
   const item = await Item.findByPk(id);
   if (req.user != item.seller_id)
-    res.status(401).json({ message: "Unauthorized 👀" });
+    return res.status(401).json({ message: "Unauthorized 👀" });
   item
     .destroy()
     .then(() => {

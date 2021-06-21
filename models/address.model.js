@@ -26,8 +26,6 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Address.sync({ alter: true }).then(() => console.log("User table connected"));
-
   Address.associate = (models) => {
     Address.belongsTo(models.User, {
       foreignKey: "user_id",

@@ -19,14 +19,12 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Item.sync({ alter: true }).then(() => console.log("Item table connected"));
-
   Item.associate = (models) => {
     Item.belongsTo(models.Category, {
-      foreignKey: {name:"category_id", allowNull: true},
+      foreignKey: { name: "category_id", allowNull: true },
     });
     Item.belongsTo(models.User, {
-      foreignKey: {name:"seller_id", allowNull: true},
+      foreignKey: { name: "seller_id", allowNull: true },
     });
     Item.belongsToMany(models.Order, {
       through: models.Order_Item,

@@ -22,5 +22,6 @@ Object.keys(models).forEach((modelName) => {
 });
 
 models.sequelize = db;
+models.Sequelize = Sequelize;
 
 module.exports = models;

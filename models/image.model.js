@@ -18,8 +18,6 @@ module.exports = (Sequelize, db) => {
     {}
   );
 
-  // Image.sync({ alter: true }).then(() => console.log("Image table connected"));
-
   Image.associate = (models) => {
     Image.belongsTo(models.Item, {
       foreignKey: "item_id",

@@ -30,7 +30,9 @@ exports.findAllItems = async (req, res, next) => {
     where: { ordered: false, buyer_id: req.user },
     include: [Item],
   })
-    .then((order_item) => res.json(order_item))
+    .then((order_item) => {
+      res.json(order_item);
+    })
     .catch((err) => res.status(400).json({ Error: err }));
 };
 

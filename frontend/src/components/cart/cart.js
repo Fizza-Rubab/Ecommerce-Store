@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
@@ -19,10 +20,6 @@ import { ShoppingCart } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import QuantityButton from "./quantityButton";
 const StyledTableCell = withStyles((theme) => ({
-  rootMain: {
-    marginTop: theme.spacing(12),
-    // position: "relative",
-  },
   head: {
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
@@ -40,41 +37,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const rows = [
-  {
-    img: "/static/img/shoes.png",
-    name: "Sneakers",
-    size: "L",
-    quantity: 2,
-    price: 1500,
-    total: 3000,
-  },
-  {
-    img: "/static/img/shoes.png",
-    name: "Chppal",
-    size: "L",
-    quantity: 5,
-    price: 1500,
-    total: 3000,
-  },
-  {
-    img: "/static/img/shoes.png",
-    name: "Joggers",
-    size: "L",
-    quantity: 2,
-    price: 1500,
-    total: 3000,
-  },
-  {
-    img: "/static/img/shoes.png",
-    name: "Wedges ",
-    size: "L",
-    quantity: 9,
-    price: 1500,
-    total: 3000,
-  },
-];
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
@@ -84,8 +46,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function OrderHistory() {
+  const history = useHistory();
+  const [items, setItems] = React.useState([]);
   const classes = useStyles();
+  let sum = 0.0;
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
+  useEffect(() => {
+    if (!token) history.push("/login");
+    axios({
+      method: "get", //you can set what request you want to be
+      url: `http://localhost:5000/api/cart/`,
+      headers: {
+        authorization: token,
+      },
+    })
+      .then((res) => {
+        setItems(res.data[0].items);
+        // setUserName(res.data.userName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
+    //eslint-disable-next-line
+  }, []);
   return (
     // <Grid >
     <Container className={classes.main}>
@@ -107,23 +92,24 @@ export default function OrderHistory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {items.map((item) => (
+              <StyledTableRow key={item.id}>
                 <StyledTableCell component="th" scope="row">
-                  ,<img src={row.img} alt="Image" height="150px" />
+                  ,
+                  <img src="/static/img/shoes.png" alt="Image" height="150px" />
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {item.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.size}</StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
+                <StyledTableCell align="right">{item.size}</StyledTableCell>
+                <StyledTableCell align="right">{item.price}</StyledTableCell>
                 <StyledTableCell align="right">
                   {/* {row.quantity} */}
                   {/* <QuantityButton quantity={2} /> */}
-                  <QuantityButton quantity={row.quantity} />
+                  <QuantityButton quantity={item.quantity} />
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {row.price * row.quantity}
+                  {item.price * item.quantity}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <IconButton
@@ -139,7 +125,20 @@ export default function OrderHistory() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Button
+        // type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        onClick={(event) => {
+          history.push("/cart/summary");
+        }}
+      >
+        Proceed to CheckOut
+      </Button>
     </Container>
+
     // </Grid>
   );
 }

@@ -26,7 +26,7 @@ app.use("/api/item", itemsRouter(upload));
 
 const usersRouter = require("./routes/user");
 
-app.use("/api/users", usersRouter);
+app.use("/api/users", usersRouter(upload));
 
 const cartRouter = require("./routes/cart");
 

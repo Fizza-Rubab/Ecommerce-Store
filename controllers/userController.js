@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Profile } = require("../models");
 const sha256 = require("js-sha256");
 const jwt = require("jwt-then");
 
@@ -83,6 +83,22 @@ exports.deleteUser = async (req, res, next) => {
     .destroy()
     .then(() => {
       res.json({ message: "user deleted" });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+exports.addImage = async (req, res, next) => {
+  const user_id = req.user;
+  const [profile, created] = await Profile.findOrCreate({ where: { user_id } });
+  profile.imageType = req.file.mimetype;
+  profile.imageName = req.file.originalname;
+  profile.imageData = req.file.buffer;
+  profile
+    .save()
+    .then(() => {
+      res.status(201).json("uploaded");
     })
     .catch((err) => {
       res.json(err);

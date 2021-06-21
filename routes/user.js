@@ -9,6 +9,7 @@ const {
   updateUser,
   allUsers,
   getUser,
+  addImage,
 } = require("../controllers/userController");
 
 router.get("/", auth, catchErrors(allUsers));
@@ -23,4 +24,11 @@ router.delete("/delete/:id", auth, catchErrors(deleteUser));
 
 router.put("/update/:id", auth, catchErrors(updateUser));
 
-module.exports = router;
+module.exports = (upload) => {
+  router.put(
+    "/image",
+    [auth, upload.single("image")],
+    catchErrors(addImage)
+  );
+  return router;
+};

@@ -11,16 +11,16 @@ const {
   getUser,
 } = require("../controllers/userController");
 
-router.get("/", catchErrors(allUsers));
+router.get("/", auth, catchErrors(allUsers));
 
-router.get("/:id", catchErrors(getUser));
+router.get("/:id", auth, catchErrors(getUser));
 
 router.post("/register", catchErrors(register));
 
 router.post("/login", catchErrors(login));
 
-router.delete("/delete/:id", catchErrors(deleteUser));
+router.delete("/delete/:id", auth, catchErrors(deleteUser));
 
-router.put("/update/:id", catchErrors(updateUser));
+router.put("/update/:id", auth, catchErrors(updateUser));
 
 module.exports = router;

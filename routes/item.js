@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { catchErrors } = require("./errorHandlers");
+const auth = require("../middlewares/auth");
 
 const {
   findAllItems,
@@ -17,16 +18,16 @@ router.get("/category/:id", catchErrors(findAllItemsCategory));
 
 router.get("/:id", catchErrors(findItem));
 
-router.post("/add", catchErrors(addItem));
+router.post("/add", auth, catchErrors(addItem));
 
 router.get("/images/:id", catchErrors(getImages));
 
-router.delete("/delete/:id", catchErrors(deleteItem));
+router.delete("/delete/:id", auth, catchErrors(deleteItem));
 
 module.exports = (upload) => {
   router.post(
     "/addImage/:id",
-    upload.array("images", 10),
+    [auth, upload.array("images", 10)],
     catchErrors(addImage)
   );
   return router;

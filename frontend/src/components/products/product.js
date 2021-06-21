@@ -59,11 +59,9 @@ export default function Product({ product }) {
         />
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
-        <IconButton aria-label="Add to Cart">
-          <AddShoppingCart />
-        </IconButton>
         <IconButton
           aria-label="Add to Cart"
+          color="Secondary"
           onClick={() =>
             history.push({
               pathname: `/products/${product.id}`,
@@ -71,7 +69,7 @@ export default function Product({ product }) {
             })
           }
         >
-          <OpenInNewIcon />
+          <AddShoppingCart />
         </IconButton>
       </CardActions>
     </Card>

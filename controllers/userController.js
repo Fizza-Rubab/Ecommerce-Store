@@ -39,9 +39,18 @@ exports.allUsers = async (req, res) => {
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json({ Error: err }));
 };
+
 exports.getUser = async (req, res) => {
-  await User.findOne({ where: { id: req.params.id } })
-    .then((user) => res.json(user))
+  const id = req.params.id;
+  await User.findOne({ where: { id }, raw: true, nest: true })
+    .then(async (user) => {
+      user.profile = await Profile.findOne({
+        where: { user_id: id },
+        raw: true,
+        nest: true,
+      });
+      res.json(user);
+    })
     .catch((err) => res.status(400).json({ Error: err }));
 };
 
@@ -98,7 +107,7 @@ exports.addImage = async (req, res, next) => {
   profile
     .save()
     .then(() => {
-      res.status(201).json("uploaded");
+      res.json({ message: "uploaded" });
     })
     .catch((err) => {
       res.json(err);

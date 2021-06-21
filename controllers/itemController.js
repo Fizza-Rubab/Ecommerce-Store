@@ -17,6 +17,8 @@ exports.findAllItems = async (req, res, next) => {
       where: { item_id: item.id },
       raw: true,
     });
+    if (item.image)
+      item.image.imageData = item.image.imageData.toString("base64");
   });
   res.json(items);
 };
@@ -43,16 +45,28 @@ exports.addImage = async (req, res, next) => {
 
 exports.getImages = async (req, res, next) => {
   const id = req.params.id;
-  const images = await Image.findAll({ where: { item_id: id } });
+  let images = await Image.findAll({ where: { item_id: id } });
+  images.forEach((image) => {
+    image.imageData = image.imageData.toString("base64");
+  });
   res.json(images);
 };
 
 exports.findItem = async (req, res) => {
   const id = req.params.id;
 
-  let item = await Item.findByPk(id);
+  let item = await Item.findOne({ where: { id }, raw: true, nest: true });
 
-  item["image"] = Image.findAll({ where: { item_id: id } });
+  item.images = await Image.findAll({
+    where: { item_id: id },
+    raw: true,
+    nest: true,
+  });
+
+  if (item.images)
+    item.images.forEach((image) => {
+      image.imageData = image.imageData.toString("base64");
+    });
 
   res.json(item);
 };

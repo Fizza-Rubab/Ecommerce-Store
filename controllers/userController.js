@@ -49,6 +49,8 @@ exports.getUser = async (req, res) => {
         raw: true,
         nest: true,
       });
+      if (user.profile && user.profile.imageData )
+        user.profile.imageData = user.profile.imageData.toString("base64");
       res.json(user);
     })
     .catch((err) => res.status(400).json({ Error: err }));

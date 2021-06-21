@@ -25,6 +25,7 @@ exports.addItems = async (req, res, next) => {
 };
 
 exports.findAllItems = async (req, res, next) => {
+  console.log("\n Here it is", req);
   await Order.findAll({
     where: { ordered: false, buyer_id: req.user },
     include: [Item],

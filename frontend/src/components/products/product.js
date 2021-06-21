@@ -61,7 +61,7 @@ export default function Product({ product }) {
       <CardActions disableSpacing className={classes.cardActions}>
         <IconButton
           aria-label="Add to Cart"
-          color="Secondary"
+          color="secondary"
           onClick={() =>
             history.push({
               pathname: `/products/${product.id}`,

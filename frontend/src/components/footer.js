@@ -15,11 +15,7 @@ import YouTubeIcon from "@material-ui/icons/YouTube";
 
 function Copyright() {
   return (
-    <Typography
-      variant="body2"
-      color="textSecondarycontrastText"
-      align="center"
-    >
+    <Typography variant="body2" color="initial" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         The Shoe Shop
@@ -56,14 +52,14 @@ export default function StickyFooter() {
       <footer className={classes.footer}>
         <Grid
           container
-          alignContents="center"
+          // alignContents="center"
           alignItems="center"
           justify="center"
         >
-          <Grid item align="center" float="center" xs="4">
+          <Grid item align="center" float="center" xs={4}>
             <img alt="Logo" src="/static/img/logo.png" height="80px" />
           </Grid>
-          <Grid item xs="4">
+          <Grid item xs={4}>
             <List dense>
               <ListItem>
                 <ListItemText align="center" primary="Phone: 03222336019" />
@@ -76,7 +72,7 @@ export default function StickyFooter() {
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs="4">
+          <Grid item xs={4}>
             <List dense>
               <ListItem button>
                 <ListItemText align="center" primary="About" />
@@ -86,7 +82,7 @@ export default function StickyFooter() {
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs="12">
+          <Grid item xs={12}>
             <Box display="flex" justifyContent="center" alignItems="center">
               <IconButton color="inherit">
                 <FacebookIcon />
@@ -99,7 +95,7 @@ export default function StickyFooter() {
               </IconButton>
             </Box>
           </Grid>
-          <Grid item xs="12">
+          <Grid item xs={12}>
             <Copyright />
           </Grid>
         </Grid>

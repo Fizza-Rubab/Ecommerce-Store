@@ -1,5 +1,5 @@
 import { Carousel } from "3d-react-carousal";
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -15,6 +15,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+
 let slides = [
   <img src="/static/img/shoesBanner.png" alt="1" />,
   <img src="https://picsum.photos/800/301/?random" alt="2" />,
@@ -53,9 +56,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function ProductPage(prod) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("cash");
+  // const [value, setValue] = React.useState("cash");
   const [product, setProduct] = React.useState(prod);
-  console.log(product);
+  const [size, setSize] = useState("M");
+  const [quantity, setQuantity] = useState(1);
+  // console.log(product);
+  const history = useHistory();
 
   return (
     <>
@@ -103,7 +109,28 @@ export default function ProductPage(prod) {
         <Grid item xs={12} sm={4}>
           <Card className={classes.root}>
             <CardContent>
-              <form className={classes.form} noValidate>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  axios
+                    .post("http://localhost:5000/api/cart/add", {
+                      item_id: product.location.prod.id,
+                      quantity,
+                      size,
+                    })
+                    .then((res) => {
+                      localStorage.setItem("E_Token", res.data.token);
+                      history.push("/checkout");
+                      console.log(res.data);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                  // setState({ name: "", email: "" });
+                }}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -119,6 +146,9 @@ export default function ProductPage(prod) {
                       id="size"
                       label="Size"
                       autoFocus
+                      onChange={(event) => {
+                        setSize(event.target.value);
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -134,6 +164,9 @@ export default function ProductPage(prod) {
                       label="Quantity"
                       name="quantity"
                       autoComplete="quantity"
+                      onChange={(event) => {
+                        setQuantity(event.target.value);
+                      }}
                     />
                   </Grid>
                 </Grid>

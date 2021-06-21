@@ -4,6 +4,6 @@ const { catchErrors } = require("./errorHandlers");
 
 const { checkingOut } = require("../controllers/checkoutController");
 
-router.get("/", auth, catchErrors(checkingOut));
+router.post("/", auth, catchErrors(checkingOut));
 
 module.exports = router;

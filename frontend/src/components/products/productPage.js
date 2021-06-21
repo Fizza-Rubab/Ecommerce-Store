@@ -60,6 +60,8 @@ export default function ProductPage(prod) {
   const [product, setProduct] = React.useState(prod);
   const [size, setSize] = useState("M");
   const [quantity, setQuantity] = useState(1);
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
   // console.log(product);
   const history = useHistory();
 
@@ -117,8 +119,9 @@ export default function ProductPage(prod) {
                   axios
                     .post("http://localhost:5000/api/cart/add", {
                       item_id: product.location.prod.id,
-                      quantity,
-                      size,
+                      quantity: quantity,
+                      size: size,
+                      buyer_id: id,
                     })
                     .then((res) => {
                       localStorage.setItem("E_Token", res.data.token);

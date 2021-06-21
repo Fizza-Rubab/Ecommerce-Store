@@ -8,6 +8,7 @@ const {
   findAllItemsCategory,
   addImage,
   getImages,
+  deleteItem,
 } = require("../controllers/itemController");
 
 router.get("/", catchErrors(findAllItems));
@@ -19,6 +20,8 @@ router.get("/:id", catchErrors(findItem));
 router.post("/add", catchErrors(addItem));
 
 router.get("/images/:id", catchErrors(getImages));
+
+router.delete("/delete/:id", catchErrors(deleteItem));
 
 module.exports = (upload) => {
   router.post(

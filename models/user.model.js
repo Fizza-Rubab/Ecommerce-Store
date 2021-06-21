@@ -30,7 +30,4 @@ module.exports = (Sequelize, db) => {
   );
 
   return User;
-
-  // User.sync({ alter: true }).then(() => console.log("User table connected"));
 };
-

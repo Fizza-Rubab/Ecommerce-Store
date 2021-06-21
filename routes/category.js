@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { catchErrors } = require("../errorHandlers");
+const { catchErrors } = require("./errorHandlers");
 
 const {
   findAllCategories,

@@ -62,12 +62,27 @@ exports.login = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  User.update({ userName: req.body.userName }, { where: { id: req.params.id } })
-    .then(function ([rowsUpdate, [updatedUser]]) {
+  const id = req.params.id;
+  const token = await jwt.sign({ user_id: id }, process.env.SECRET);
+  User.update({ userName: req.body.userName }, { where: { id } })
+    .then(() => {
       res.json({
         message: "User updated successfully",
         token,
       });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+exports.deleteUser = async (req, res, next) => {
+  const id = req.params.id;
+  const user = await User.findByPk(id);
+  user
+    .destroy()
+    .then(() => {
+      res.json({ message: "user deleted" });
     })
     .catch((err) => {
       res.json(err);

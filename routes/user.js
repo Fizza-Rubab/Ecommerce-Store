@@ -12,10 +12,15 @@ const {
 } = require("../controllers/userController");
 
 router.get("/", catchErrors(allUsers));
+
 router.get("/:id", catchErrors(getUser));
+
 router.post("/register", catchErrors(register));
+
 router.post("/login", catchErrors(login));
+
 router.delete("/delete/:id", catchErrors(deleteUser));
+
 router.put("/update/:id", catchErrors(updateUser));
 
 module.exports = router;

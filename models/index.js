@@ -1,6 +1,16 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
 
+db.authenticate()
+  .then(() => {
+    console.log(
+      "Connection with postgresql has been established successfully."
+    );
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
 const models = {
   User: require("./user.model")(Sequelize, db),
   Item: require("./item.model")(Sequelize, db),

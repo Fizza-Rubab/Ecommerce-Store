@@ -1,4 +1,4 @@
-const { Item, Category, Image } = require("../models");
+const { Item, Category, Image, User } = require("../models");
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -17,6 +17,8 @@ exports.findAllItems = async (req, res, next) => {
       where: { item_id: item.id },
       raw: true,
     });
+    if (item.image)
+      item.image.imageData = item.image.imageData.toString("base64");
   });
   res.json(items);
 };
@@ -43,23 +45,37 @@ exports.addImage = async (req, res, next) => {
 
 exports.getImages = async (req, res, next) => {
   const id = req.params.id;
-  const images = await Image.findAll({ where: { item_id: id } });
+  let images = await Image.findAll({ where: { item_id: id } });
+  images.forEach((image) => {
+    image.imageData = image.imageData.toString("base64");
+  });
   res.json(images);
 };
 
 exports.findItem = async (req, res) => {
   const id = req.params.id;
 
-  let item = await Item.findByPk(id);
+  let item = await Item.findOne({ where: { id }, raw: true, nest: true });
 
-  item["image"] = Image.findAll({ where: { item_id: id } });
+  item.images = await Image.findAll({
+    where: { item_id: id },
+    raw: true,
+    nest: true,
+  });
+
+  if (item.images)
+    item.images.forEach((image) => {
+      image.imageData = image.imageData.toString("base64");
+    });
 
   res.json(item);
 };
 
 exports.addItem = async (req, res, next) => {
-  const { name, quantity, price, description, seller_id, category_id } =
-    req.body;
+  const seller_id = req.user;
+  const user = await User.findByPk(seller_id);
+  if (!user.seller) return res.status(401).json({ message: "Unauthorized 👀" });
+  const { name, quantity, price, description, category_id } = req.body;
   const newItem = new Item({
     name,
     quantity,
@@ -78,7 +94,7 @@ exports.deleteItem = async (req, res, next) => {
   const id = req.params.id;
   const item = await Item.findByPk(id);
   if (req.user != item.seller_id)
-    res.status(401).json({ message: "Unauthorized 👀" });
+    return res.status(401).json({ message: "Unauthorized 👀" });
   item
     .destroy()
     .then(() => {

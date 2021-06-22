@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,7 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -33,37 +34,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const rows = [
-  {
-    name: "Sneakers",
-    quantity: 2,
-    price: 1500,
-    shipmentType: "Cash",
-    shipmentDate: new Date().getTime(),
-  },
-  {
-    name: "Chappal",
-    quantity: 1,
-    price: 900,
-    shipmentType: "Credit",
-    shipmentDate: new Date().getTime(),
-  },
-  {
-    name: "Converse",
-    quantity: 5,
-    price: 10000,
-    shipmentType: "Cash",
-    shipmentDate: new Date().getTime(),
-  },
-  {
-    name: "Khussa",
-    quantity: 1,
-    price: 3000,
-    shipmentType: "Credit",
-    shipmentDate: new Date().getTime(),
-  },
-];
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
@@ -74,8 +44,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function OrderHistory() {
+  const history = useHistory();
+  const [itemsObj, setItemsObj] = React.useState([]);
   const classes = useStyles();
+  let sum = 0.0;
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
+  useEffect(() => {
+    if (!token) history.push("/login");
+    axios({
+      method: "get", //you can set what request you want to be
+      url: `http://localhost:5000/api/cart/history`,
+      headers: {
+        authorization: token,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setItemsObj(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
+    //eslint-disable-next-line
+  }, []);
   return (
     <div className={classes.main}>
       <Typography component="h1" variant="h5" align="center">
@@ -93,21 +86,25 @@ export default function OrderHistory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.shipmentType}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.shipmentDate}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {itemsObj.map((itemsOb) =>
+              itemsOb.items.map((item) => (
+                <StyledTableRow key={item.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {item.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {item.quantity}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{item.price}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {itemsOb.shipmentType}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {itemsOb.shipmentDate}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

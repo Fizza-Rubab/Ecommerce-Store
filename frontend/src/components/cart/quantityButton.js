@@ -6,7 +6,7 @@ import axios from "axios";
 export default function QuantityButton({ item, order }) {
   // console.log(item.id);
   // console.log(order);
-  // const [count, setCount] = useState(item.quantity);
+  const [count, setCount] = useState(item.order_item.quantity);
   // console.log(count);
   const history = useHistory();
   const token = window.localStorage.getItem("E_Token");
@@ -20,55 +20,49 @@ export default function QuantityButton({ item, order }) {
     <ButtonGroup size="small" aria-label="small outlined button group">
       <Button
         onClick={() => {
-          item.quantity += 1;
+          setCount(count + 1);
           axios({
             method: "put", //you can set what request you want to be
             url: `http://localhost:5000/api/cart/update`,
             data: {
               item_id: item.id,
               order_id: order,
-              quantity: parseInt(item.quantity),
+              quantity: count,
             },
             headers: {
               authorization: token,
             },
           })
             .then((res) => {
-              console.log(item.quantity);
+              console.log(item.order_item.quantity);
             })
             .catch((err) => {
-              // console.log(err);
+              console.log(err);
             });
-
-          window.location.reload();
         }}
       >
         +
       </Button>
-      <Button disabled>{item.order_item.quantity}</Button>
+      <Button disabled>{count}</Button>
       <Button
         onClick={() => {
-          item.quantity -= 1;
+          setCount(count - 1);
           axios({
             method: "put", //you can set what request you want to be
             url: `http://localhost:5000/api/cart/update`,
             data: {
               item_id: item.id,
               order_id: order,
-              quantity: parseInt(item.quantity),
+              quantity: count,
             },
             headers: {
               authorization: token,
             },
           })
-            .then((res) => {
-              // console.log(res);
-            })
+            .then((res) => {})
             .catch((err) => {
-              // console.log(err);
+              console.log(err);
             });
-
-          window.location.reload();
         }}
       >
         -

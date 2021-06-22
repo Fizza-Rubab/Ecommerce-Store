@@ -150,6 +150,7 @@ export default function OrderHistory() {
         color="primary"
         className={classes.submit}
         onClick={(event) => {
+          // window.location.reload();
           history.push("/cart/summary");
         }}
       >

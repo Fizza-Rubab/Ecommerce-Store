@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function ProductPage(prod) {
+  console.log(prod);
   const classes = useStyles();
   const [product, setProduct] = React.useState(prod);
   const [size, setSize] = useState("M");
@@ -57,7 +58,7 @@ export default function ProductPage(prod) {
       <Grid container className={classes.paper} spacing={4}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h5" align="center">
-            {product.location.prod.name}
+            {prod.location.prod.name}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -73,20 +74,20 @@ export default function ProductPage(prod) {
           <Card className={classes.root}>
             <CardMedia
               className={classes.media}
-              title={product.location.prod.name}
+              title={prod.location.prod.name}
             />
             <CardContent>
               <div className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  {product.location.prod.name}
+                  {prod.location.prod.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" component="h2">
-                  $ {product.location.prod.price}
+                  $ {prod.location.prod.price}
                 </Typography>
               </div>
               <Typography
                 dangerouslySetInnerHTML={{
-                  __html: product.location.prod.description,
+                  __html: prod.location.prod.description,
                 }}
                 variant="body2"
                 color="inherit"
@@ -107,9 +108,9 @@ export default function ProductPage(prod) {
                     method: "post", //you can set what request you want to be
                     url: `http://localhost:5000/api/cart/add`,
                     data: {
-                      item_id: product.location.prod.id,
-                      quantity: quantity,
-                      size: size,
+                      item_id: prod.location.prod.id,
+                      quantity,
+                      size,
                     },
                     headers: {
                       authorization: token,
@@ -117,7 +118,7 @@ export default function ProductPage(prod) {
                   })
                     .then((res) => {
                       history.push("/cart");
-                      console.log(res.data);
+                      // console.log(res.data);
                     })
                     .catch((error) => {
                       console.log(error);

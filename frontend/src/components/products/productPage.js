@@ -109,7 +109,7 @@ export default function ProductPage(prod) {
                   console.log(size);
                   axios({
                     method: "post", //you can set what request you want to be
-                    url: `http://localhost:5000/api/cart/add`,
+                    url: `/api/cart/add`,
                     data: {
                       item_id: prod.location.prod.id,
                       quantity,

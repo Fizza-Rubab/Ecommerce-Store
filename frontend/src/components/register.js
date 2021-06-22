@@ -58,7 +58,7 @@ export default function SignUp() {
           onSubmit={(e) => {
             e.preventDefault();
             axios
-              .post("http://localhost:5000/api/users/register", {
+              .post("/api/users/register", {
                 userName,
                 email,
                 password,

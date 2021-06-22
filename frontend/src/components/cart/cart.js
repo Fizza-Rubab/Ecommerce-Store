@@ -54,7 +54,7 @@ export default function OrderHistory() {
     if (!token) history.push("/login");
     axios({
       method: "get", //you can set what request you want to be
-      url: `http://localhost:5000/api/cart/`,
+      url: `/api/cart/`,
       headers: {
         authorization: token,
       },
@@ -117,7 +117,7 @@ export default function OrderHistory() {
                     onClick={() => {
                       axios({
                         method: "delete",
-                        url: `http://localhost:5000/api/cart/delete`,
+                        url: `/api/cart/delete`,
                         data: {
                           item_id: item.id,
                           order_id: order,

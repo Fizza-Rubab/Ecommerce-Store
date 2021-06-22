@@ -57,7 +57,7 @@ export default function Category(category) {
     if (!token) history.push("/login");
     axios({
       method: "get", //you can set what request you want to be
-      url: `http://localhost:5000/api/item/category/${category.location.state.category.id}`,
+      url: `/api/item/category/${category.location.state.category.id}`,
       headers: {
         authorization: token,
       },
@@ -70,7 +70,7 @@ export default function Category(category) {
         console.log(err);
       });
     axios
-      .get(`http://localhost:5000/api/categories/`)
+      .get(`/api/categories/`)
       .then((res) => {
         setCategories(res.data);
       })

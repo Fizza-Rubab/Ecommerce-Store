@@ -56,7 +56,7 @@ export default function Home() {
     if (!token) history.push("/login");
 
     axios
-      .get(`http://localhost:5000/api/item/`)
+      .get(`/api/item/`)
       .then((res) => {
         setProducts(res.data);
       })
@@ -64,7 +64,7 @@ export default function Home() {
         console.log(error);
       });
     axios
-      .get(`http://localhost:5000/api/categories/`)
+      .get(`/api/categories/`)
       .then((res) => {
         setCategories(res.data);
       })

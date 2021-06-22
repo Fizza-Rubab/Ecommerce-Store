@@ -53,7 +53,7 @@ export default function OrderHistory() {
     if (!token) history.push("/login");
     axios({
       method: "get", //you can set what request you want to be
-      url: `http://localhost:5000/api/cart/history`,
+      url: `/api/cart/history`,
       headers: {
         authorization: token,
       },

@@ -43,7 +43,7 @@ export default function Summary() {
     if (!token) history.push("/login");
     axios({
       method: "get",
-      url: `http://localhost:5000/api/cart/`,
+      url: `/api/cart/`,
       headers: {
         authorization: token,
       },

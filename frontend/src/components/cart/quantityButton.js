@@ -23,7 +23,7 @@ export default function QuantityButton({ item, order }) {
           setCount(count + 1);
           axios({
             method: "put", //you can set what request you want to be
-            url: `http://localhost:5000/api/cart/update`,
+            url: `/api/cart/update`,
             data: {
               item_id: item.id,
               order_id: order,
@@ -49,7 +49,7 @@ export default function QuantityButton({ item, order }) {
           setCount(count - 1);
           axios({
             method: "put", //you can set what request you want to be
-            url: `http://localhost:5000/api/cart/update`,
+            url: `/api/cart/update`,
             data: {
               item_id: item.id,
               order_id: order,

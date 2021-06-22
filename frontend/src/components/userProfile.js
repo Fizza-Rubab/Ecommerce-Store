@@ -67,7 +67,7 @@ export default function UpdateProfile(user) {
     if (!token) history.push("/login");
     axios({
       method: "get", //you can set what request you want to be
-      url: `http://localhost:5000/api/users/${id}`,
+      url: `/api/users/${id}`,
       headers: {
         authorization: token,
       },
@@ -96,7 +96,7 @@ export default function UpdateProfile(user) {
               e.preventDefault();
               axios({
                 method: "put", //you can set what request you want to be
-                url: `http://localhost:5000/api/users/update/${id}`,
+                url: `/api/users/update/${id}`,
                 headers: {
                   authorization: token,
                 },

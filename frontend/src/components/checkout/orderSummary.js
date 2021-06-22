@@ -82,7 +82,7 @@ export default function Summary() {
                   Price: &nbsp; {product.price} &nbsp;
                 </Typography>
                 <Typography variant="body2">
-                  Quantity: &nbsp; {product.quantity}
+                  Quantity: &nbsp; {product.order_item.quantity}
                 </Typography>
               </ListItem>
             ))}
@@ -91,44 +91,23 @@ export default function Summary() {
               <Typography variant="subtitle1" className={classes.total}>
                 {" "}
                 Total Items:
-                {items.reduce((total, item) => item.quantity + total, 0)} &nbsp;
+                {items.reduce(
+                  (total, item) => item.order_item.quantity + total,
+                  0
+                )}{" "}
+                &nbsp;
               </Typography>
               <Typography variant="subtitle1" className={classes.total}>
                 {" "}
                 Total Cost:
                 {items.reduce(
-                  (total, item) => item.price * item.quantity + total,
+                  (total, item) =>
+                    item.price * item.order_item.quantity + total,
                   0
                 )}
               </Typography>
             </ListItem>
           </List>
-          {/* <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6" gutterBottom className={classes.title}>
-                Shipping
-              </Typography>
-              <Typography gutterBottom>John Smith</Typography>
-              <Typography gutterBottom>{addresses.join(", ")}</Typography>
-            </Grid>
-            <Grid item container direction="column" xs={12} sm={6}>
-              <Typography variant="h6" gutterBottom className={classes.title}>
-                Payment details
-              </Typography>
-              <Grid container>
-                {payments.map((payment) => (
-                  <React.Fragment key={payment.name}>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>{payment.name}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>{payment.detail}</Typography>
-                    </Grid>
-                  </React.Fragment>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid> */}
           <Button
             fullWidth
             align="center"

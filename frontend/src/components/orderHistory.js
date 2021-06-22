@@ -47,7 +47,6 @@ export default function OrderHistory() {
   const history = useHistory();
   const [itemsObj, setItemsObj] = React.useState([]);
   const classes = useStyles();
-  let sum = 0.0;
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
   useEffect(() => {
@@ -81,6 +80,7 @@ export default function OrderHistory() {
               <StyledTableCell>Item Name</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
               <StyledTableCell align="right">Price </StyledTableCell>
+              <StyledTableCell align="right">Total </StyledTableCell>
               <StyledTableCell align="right">Shipment Time</StyledTableCell>
               <StyledTableCell align="right">Shipment Time</StyledTableCell>
             </TableRow>
@@ -93,9 +93,12 @@ export default function OrderHistory() {
                     {item.name}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {item.quantity}
+                    {item.order_item.quantity}
                   </StyledTableCell>
                   <StyledTableCell align="right">{item.price}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {item.price * item.order_item.quantity}
+                  </StyledTableCell>
                   <StyledTableCell align="right">
                     {itemsOb.shipmentType}
                   </StyledTableCell>

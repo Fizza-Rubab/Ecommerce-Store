@@ -50,26 +50,25 @@ export default function OrderHistory() {
   const classes = useStyles();
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
-  // useEffect(() => {
-  if (!token) history.push("/login");
-  axios({
-    method: "get", //you can set what request you want to be
-    url: `http://localhost:5000/api/cart/`,
-    headers: {
-      authorization: token,
-    },
-  })
-    .then((res) => {
-      // console.log(res.data);
-      setItems(res.data[0].items);
-      setOrder(res.data[0].id);
+  useEffect(() => {
+    if (!token) history.push("/login");
+    axios({
+      method: "get", //you can set what request you want to be
+      url: `http://localhost:5000/api/cart/`,
+      headers: {
+        authorization: token,
+      },
     })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  //eslint-disable-next-line
-  // }, []);
+      .then((res) => {
+        console.log(res);
+        setItems(res.data[0].items);
+        setOrder(res.data[0].id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //eslint-disable-next-line
+  }, []);
   return (
     <Container className={classes.main}>
       <Typography component="h1" variant="h5" align="center">
@@ -91,6 +90,7 @@ export default function OrderHistory() {
           </TableHead>
           <TableBody>
             {items.map((item) => (
+              // {item}
               <StyledTableRow key={item.id}>
                 <StyledTableCell component="th" scope="row">
                   ,
@@ -99,13 +99,15 @@ export default function OrderHistory() {
                 <StyledTableCell component="th" scope="row">
                   {item.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{item.size}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {item.order_item.size}
+                </StyledTableCell>
                 <StyledTableCell align="right">{item.price}</StyledTableCell>
                 <StyledTableCell align="right">
                   <QuantityButton item={item} order={order} />
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {item.price * item.quantity}
+                  {item.price * item.order_item.quantity}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <IconButton

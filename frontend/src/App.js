@@ -10,6 +10,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import AppBar from "./components/appbar";
 import Footer from "./components/footer";
+import CategoryPage from "./components/categoryPage";
 import ProductPage from "./components/products/productPage";
 import Products from "./components/products/products";
 import Home from "./components/home";
@@ -34,6 +35,7 @@ export default function App() {
             }}
           />
           <Route exact path="/home" component={Home} />
+          <Route exact path="/categories" component={CategoryPage} />
           <Route exact path="/products/:id" component={ProductPage} />
           <Route exact path="/products" render={() => <Products products />} />
           <Route exact path="/login" component={Login} />

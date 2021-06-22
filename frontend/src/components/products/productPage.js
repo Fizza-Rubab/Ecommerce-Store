@@ -46,9 +46,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductPage(prod) {
   console.log(prod);
   const classes = useStyles();
+
   const [product, setProduct] = React.useState(prod);
-  const [size, setSize] = useState("M");
-  const [quantity, setQuantity] = useState(1);
+  let [size, setSize] = useState("M");
+  let [quantity, setQuantity] = useState();
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
   const history = useHistory();
@@ -104,6 +105,8 @@ export default function ProductPage(prod) {
                 noValidate
                 onSubmit={(e) => {
                   e.preventDefault();
+                  console.log(quantity);
+                  console.log(size);
                   axios({
                     method: "post", //you can set what request you want to be
                     url: `http://localhost:5000/api/cart/add`,
@@ -117,6 +120,7 @@ export default function ProductPage(prod) {
                     },
                   })
                     .then((res) => {
+                      console.log(res);
                       history.push("/cart");
                       // console.log(res.data);
                     })
@@ -159,7 +163,9 @@ export default function ProductPage(prod) {
                       name="quantity"
                       autoComplete="quantity"
                       onChange={(event) => {
+                        // console.log(event.target.value);
                         setQuantity(event.target.value);
+                        // console.log(quantity);
                       }}
                     />
                   </Grid>

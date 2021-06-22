@@ -45,7 +45,7 @@ export default function QuantityButton({ item, order }) {
       >
         +
       </Button>
-      <Button disabled>{item.quantity}</Button>
+      <Button disabled>{item.order_item.quantity}</Button>
       <Button
         onClick={() => {
           item.quantity -= 1;

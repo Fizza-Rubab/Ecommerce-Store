@@ -43,48 +43,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-// const categories = [
-//   { id: 1, name: "Ladies" },
-//   { id: 2, name: "Men Footwear" },
-// ];
-// const prod = [
-//   {
-//     img: "/static/img/logo.png",
-//     name: "Logo",
-//     description: "Description",
-//     price: "3300",
-//   },
-//   {
-//     img: "/static/img/shoes.png",
-//     name: "Women",
-//     description: "Description",
-//     price: "33900",
-//   },
-//   {
-//     img: "/static/img/shoes.png",
-//     name: "Womedsin n",
-//     description: "Description",
-//     price: "33900",
-//   },
-//   {
-//     img: "/static/img/logo.png",
-//     name: "Logo",
-//     description: "Description",
-//     price: "3300",
-//   },
-//   {
-//     img: "/static/img/logo.png",
-//     name: "Logo",
-//     description: "Description",
-//     price: "3300",
-//   },
-//   {
-//     img: "/static/img/logo.png",
-//     name: "Logo",
-//     description: "Description",
-//     price: "3300",
-//   },
-// ];
 
 export default function Home() {
   const classes = useStyles();
@@ -108,7 +66,6 @@ export default function Home() {
     axios
       .get(`http://localhost:5000/api/categories/`)
       .then((res) => {
-        // console.log(res);
         setCategories(res.data);
       })
       .catch(function (error) {

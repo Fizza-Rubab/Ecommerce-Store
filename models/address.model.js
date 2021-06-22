@@ -6,8 +6,9 @@ module.exports = (Sequelize, db) => {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      receiverName: Sequelize.STRING(32),
       streetAddress: {
-        type: Sequelize.STRING(32),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       zip: {

@@ -5,7 +5,6 @@ module.exports = (Sequelize, db) => {
       card: {
         type: Sequelize.STRING(16),
         allowNull: false,
-        // unique: true,
       },
       cvv: {
         type: Sequelize.STRING(3),

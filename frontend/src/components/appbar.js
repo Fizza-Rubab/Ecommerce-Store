@@ -4,15 +4,14 @@ import {
   Toolbar,
   IconButton,
   Button,
+  ButtonBase,
   Badge,
   Typography,
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { NavLink, useHistory } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 const drawerWidth = 0;
 
 const useStyles = makeStyles((theme) => ({
@@ -90,20 +89,26 @@ export default function PrimarySearchAppBar() {
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
       <Toolbar>
-        <Typography
-          to="/"
-          variant="h6"
-          className={classes.title}
-          color="inherit"
+        <ButtonBase
+          onClick={() => {
+            history.push("/home");
+          }}
         >
-          <img
-            src="/static/img/logo.png"
-            alt="commerce.js"
-            height="50px"
-            className={classes.image}
-          />{" "}
-          The Shoe Shop
-        </Typography>
+          <Typography
+            to="/"
+            variant="h6"
+            className={classes.title}
+            color="inherit"
+          >
+            <img
+              src="/static/img/logo.png"
+              alt="commerce.js"
+              height="50px"
+              className={classes.image}
+            />{" "}
+            The Shoe Shop
+          </Typography>
+        </ButtonBase>
         <div className={classes.grow} />
         <div className={classes.button}>
           <Button color="inherit" onClick={() => history.push("/user")}>

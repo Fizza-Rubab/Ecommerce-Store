@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -7,33 +7,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
-const products = [
-  { name: "Product 1", description: "A nice thing", price: "9.99" },
-  { name: "Product 2", description: "Another thing", price: "3.45" },
-  { name: "Product 3", description: "Something else", price: "6.51" },
-  { name: "Product 4", description: "Best thing of all", price: "14.11" },
-];
-const addresses = [
-  "1 Material-UI Drive",
-  "Reactville",
-  "Anytown",
-  "99999",
-  "USA",
-];
-const payments = [
-  { name: "Payment type", detail: "Cash" },
-  { name: "Purchaser", detail: "Mr John Smith" },
-  //   { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
-  //   { name: "Expiry date", detail: "04/2024" },
-];
-
 const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: theme.palette.grey[300],
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(10),
     paddingLeft: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
@@ -54,8 +34,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Summary() {
+  const history = useHistory();
+  const [items, setItems] = React.useState([]);
   const classes = useStyles();
-  let sum = 0.0;
+  const token = window.localStorage.getItem("E_Token");
+  const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
+  useEffect(() => {
+    if (!token) history.push("/login");
+    axios({
+      method: "get",
+      url: `http://localhost:5000/api/cart/`,
+      headers: {
+        authorization: token,
+      },
+    })
+      .then((res) => {
+        setItems(res.data[0].items);
+        // setUserName(res.data.userName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    //eslint-disable-next-line
+  }, []);
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -67,27 +69,41 @@ export default function Summary() {
             gutterBottom
             align="center"
           >
-            Order summary
+            Order Receipt
           </Typography>
-          <List disablePadding>
-            {products.map((product) => (
-              <ListItem className={classes.listItem} key={product.name}>
+          <List>
+            {items.map((product) => (
+              <ListItem className={classes.listItem} key={product.id}>
                 <ListItemText
                   primary={product.name}
                   secondary={product.description}
                 />
-                <Typography variant="body2">{product.price}</Typography>
-                {(sum += parseInt(product.price))}
+                <Typography variant="body2">
+                  Price: &nbsp; {product.price} &nbsp;
+                </Typography>
+                <Typography variant="body2">
+                  Quantity: &nbsp; {product.quantity}
+                </Typography>
               </ListItem>
             ))}
             <ListItem className={classes.listItem}>
               <ListItemText primary="Total" />
               <Typography variant="subtitle1" className={classes.total}>
-                {sum}
+                {" "}
+                Total Items:
+                {items.reduce((total, item) => item.quantity + total, 0)} &nbsp;
+              </Typography>
+              <Typography variant="subtitle1" className={classes.total}>
+                {" "}
+                Total Cost:
+                {items.reduce(
+                  (total, item) => item.price * item.quantity + total,
+                  0
+                )}
               </Typography>
             </ListItem>
           </List>
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6" gutterBottom className={classes.title}>
                 Shipping
@@ -112,15 +128,18 @@ export default function Summary() {
                 ))}
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Button
-            type="submit"
             fullWidth
+            align="center"
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={(event) => {
+              history.push("/cart/checkout");
+            }}
           >
-            Confirm Purchase
+            Lock Purchase
           </Button>
         </div>
       </Container>

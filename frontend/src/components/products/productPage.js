@@ -3,18 +3,8 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Typography,
-  IconButton,
-} from "@material-ui/core";
+import { Card, CardMedia, CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -30,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: theme.spacing(4),
     marginBottom: theme.spacing(1),
-    // flexGrow: 1,
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.background.default,
   },
@@ -44,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1, 0, 0),
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -56,13 +45,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function ProductPage(prod) {
   const classes = useStyles();
-  // const [value, setValue] = React.useState("cash");
   const [product, setProduct] = React.useState(prod);
   const [size, setSize] = useState("M");
   const [quantity, setQuantity] = useState(1);
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
-  // console.log(product);
   const history = useHistory();
 
   return (
@@ -116,22 +103,25 @@ export default function ProductPage(prod) {
                 noValidate
                 onSubmit={(e) => {
                   e.preventDefault();
-                  axios
-                    .post("http://localhost:5000/api/cart/add", {
+                  axios({
+                    method: "post", //you can set what request you want to be
+                    url: `http://localhost:5000/api/cart/add`,
+                    data: {
                       item_id: product.location.prod.id,
                       quantity: quantity,
                       size: size,
-                      buyer_id: id,
-                    })
+                    },
+                    headers: {
+                      authorization: token,
+                    },
+                  })
                     .then((res) => {
-                      localStorage.setItem("E_Token", res.data.token);
-                      history.push("/checkout");
+                      history.push("/cart");
                       console.log(res.data);
                     })
                     .catch((error) => {
                       console.log(error);
                     });
-                  // setState({ name: "", email: "" });
                 }}
               >
                 <Grid container spacing={2}>

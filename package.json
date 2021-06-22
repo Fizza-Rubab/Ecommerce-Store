@@ -5,11 +5,11 @@
   "main": "index.js",
   "engines": {
     "node": "10.14.2",
-    "npm": "6.14.2"
+    "npm": "7.18.1"
   },
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd frontend && npm i && npm run build"
   },
   "repository": {
     "type": "git",

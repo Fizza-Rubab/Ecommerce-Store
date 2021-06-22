@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Category(category) {
-  console.log(category);
+  // console.log(category);
   const classes = useStyles();
   let history = useHistory();
   const [products, setProducts] = useState([]);

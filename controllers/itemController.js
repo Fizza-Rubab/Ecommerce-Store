@@ -24,7 +24,10 @@ exports.findAllItems = async (req, res, next) => {
 };
 
 exports.findAllItemsCategory = async (req, res, next) => {
-  await Item.findAll({ where: { category_id: id }, include: [Category] })
+  await Item.findAll({
+    where: { category_id: req.params.id },
+    include: [Category],
+  })
     .then((items) => res.json(items))
     .catch((err) => res.status(400).json({ Error: err }));
 };

@@ -41,7 +41,6 @@ export default function CategoryBar({ categories }) {
           <StyledBreadcrumb
             key={category.id}
             component="a"
-            href="#"
             label={category.name}
             onClick={() => {
               history.push({

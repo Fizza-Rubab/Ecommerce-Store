@@ -13,10 +13,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import IconButton from "@material-ui/core/IconButton";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import { ShoppingCart } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import QuantityButton from "./quantityButton";
 const StyledTableCell = withStyles((theme) => ({
@@ -48,31 +45,32 @@ const useStyles = makeStyles((theme) => ({
 export default function OrderHistory() {
   const history = useHistory();
   const [items, setItems] = React.useState([]);
+  const [order, setOrder] = React.useState("");
+
   const classes = useStyles();
-  let sum = 0.0;
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
-  useEffect(() => {
-    if (!token) history.push("/login");
-    axios({
-      method: "get", //you can set what request you want to be
-      url: `http://localhost:5000/api/cart/`,
-      headers: {
-        authorization: token,
-      },
+  // useEffect(() => {
+  if (!token) history.push("/login");
+  axios({
+    method: "get", //you can set what request you want to be
+    url: `http://localhost:5000/api/cart/`,
+    headers: {
+      authorization: token,
+    },
+  })
+    .then((res) => {
+      // console.log(res.data);
+      setItems(res.data[0].items);
+      setOrder(res.data[0].id);
     })
-      .then((res) => {
-        setItems(res.data[0].items);
-        // setUserName(res.data.userName);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .catch((err) => {
+      console.log(err);
+    });
 
-    //eslint-disable-next-line
-  }, []);
+  //eslint-disable-next-line
+  // }, []);
   return (
-    // <Grid >
     <Container className={classes.main}>
       <Typography component="h1" variant="h5" align="center">
         Your Past Ordered Items History
@@ -104,9 +102,7 @@ export default function OrderHistory() {
                 <StyledTableCell align="right">{item.size}</StyledTableCell>
                 <StyledTableCell align="right">{item.price}</StyledTableCell>
                 <StyledTableCell align="right">
-                  {/* {row.quantity} */}
-                  {/* <QuantityButton quantity={2} /> */}
-                  <QuantityButton quantity={item.quantity} />
+                  <QuantityButton item={item} order={order} />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   {item.price * item.quantity}
@@ -116,6 +112,26 @@ export default function OrderHistory() {
                     color="primary"
                     aria-label="upload picture"
                     component="span"
+                    onClick={() => {
+                      axios({
+                        method: "delete",
+                        url: `http://localhost:5000/api/cart/delete`,
+                        data: {
+                          item_id: item.id,
+                          order_id: order,
+                        },
+                        headers: {
+                          authorization: token,
+                        },
+                      })
+                        .then((res) => {
+                          console.log("successful!");
+                          window.location.reload();
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }}
                   >
                     <DeleteForeverIcon />
                   </IconButton>

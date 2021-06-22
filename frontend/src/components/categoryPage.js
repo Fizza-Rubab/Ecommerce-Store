@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(30, 0, 6),
-    backgroundImage: "url(/static/img/shoesBanner.png)",
+    backgroundImage: "url(/static/img/categories.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Category(category) {
+  // console.log(category);
   const classes = useStyles();
   let history = useHistory();
   const [products, setProducts] = useState([]);
@@ -54,14 +55,19 @@ export default function Home() {
     const token = window.localStorage.getItem("E_Token");
     console.log("Hey I m a ", token);
     if (!token) history.push("/login");
-
-    axios
-      .get(`/api/item/`)
+    axios({
+      method: "get", //you can set what request you want to be
+      url: `/api/item/category/${category.location.state.category.id}`,
+      headers: {
+        authorization: token,
+      },
+    })
       .then((res) => {
+        console.log(res.data);
         setProducts(res.data);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
     axios
       .get(`/api/categories/`)
@@ -88,7 +94,7 @@ export default function Home() {
               fontFamily="monospace"
               gutterBottom
             >
-              The Shoe Shop
+              {category.location.state.category.name}
             </Typography>
             <Typography
               variant="h5"
@@ -96,9 +102,9 @@ export default function Home() {
               color="textSecondary"
               paragraph
             >
-              The Shoe Shop has become one of the most recognized names in
-              Pakistani footwear industry and has no intention of slowing down
-              with around 140 brand outlets in more than 50 cities in Pakistan!
+              The Shoe Shop has brilliant categories for Pakistani footwear and
+              has no intention of slowing down with around 140 brand outlets in
+              more than 50 cities in Pakistan!
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
@@ -115,7 +121,7 @@ export default function Home() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => history.push("/about")}
+                    onClick={() => history.push("/home")}
                   >
                     Shop Now!
                   </Button>
@@ -124,7 +130,6 @@ export default function Home() {
             </div>
           </Container>
         </div>
-        {/* <CategoryBar /> */}
         <Products products={products} />
       </main>
     </>

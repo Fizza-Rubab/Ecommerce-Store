@@ -5,6 +5,7 @@ import Chip from "@material-ui/core/Chip";
 import HomeIcon from "@material-ui/icons/Home";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Box from "@material-ui/core/Box";
+import { useHistory } from "react-router-dom";
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.dark,
@@ -23,12 +24,8 @@ const StyledBreadcrumb = withStyles((theme) => ({
   },
 }))(Chip); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
-
 export default function CategoryBar({ categories }) {
+  const history = useHistory();
   return (
     <Box
       display="flex"
@@ -44,9 +41,13 @@ export default function CategoryBar({ categories }) {
           <StyledBreadcrumb
             key={category.id}
             component="a"
-            href="#"
             label={category.name}
-            onClick={handleClick}
+            onClick={() => {
+              history.push({
+                pathname: "/categories",
+                state: { category },
+              });
+            }}
           />
         ))}
       </Breadcrumbs>

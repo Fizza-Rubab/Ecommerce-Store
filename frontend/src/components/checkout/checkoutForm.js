@@ -78,7 +78,7 @@ export default function CheckOutForm() {
               e.preventDefault();
               axios({
                 method: "post", //you can set what request you want to be
-                url: `http://localhost:5000/api/checkout/`,
+                url: `/api/checkout/`,
                 data: {
                   streetAddress: address,
                   zip: zipcode,

@@ -44,10 +44,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function ProductPage(prod) {
+  console.log(prod);
   const classes = useStyles();
+
   const [product, setProduct] = React.useState(prod);
-  const [size, setSize] = useState("M");
-  const [quantity, setQuantity] = useState(1);
+  let [size, setSize] = useState("M");
+  let [quantity, setQuantity] = useState();
   const token = window.localStorage.getItem("E_Token");
   const id = `${JSON.parse(atob(token.split(".")[1])).user_id}`;
   const history = useHistory();
@@ -57,7 +59,7 @@ export default function ProductPage(prod) {
       <Grid container className={classes.paper} spacing={4}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h5" align="center">
-            {product.location.prod.name}
+            {prod.location.prod.name}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -73,20 +75,20 @@ export default function ProductPage(prod) {
           <Card className={classes.root}>
             <CardMedia
               className={classes.media}
-              title={product.location.prod.name}
+              title={prod.location.prod.name}
             />
             <CardContent>
               <div className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  {product.location.prod.name}
+                  {prod.location.prod.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" component="h2">
-                  $ {product.location.prod.price}
+                  $ {prod.location.prod.price}
                 </Typography>
               </div>
               <Typography
                 dangerouslySetInnerHTML={{
-                  __html: product.location.prod.description,
+                  __html: prod.location.prod.description,
                 }}
                 variant="body2"
                 color="inherit"
@@ -103,21 +105,24 @@ export default function ProductPage(prod) {
                 noValidate
                 onSubmit={(e) => {
                   e.preventDefault();
+                  console.log(quantity);
+                  console.log(size);
                   axios({
                     method: "post", //you can set what request you want to be
-                    url: `http://localhost:5000/api/cart/add`,
+                    url: `/api/cart/add`,
                     data: {
-                      item_id: product.location.prod.id,
-                      quantity: quantity,
-                      size: size,
+                      item_id: prod.location.prod.id,
+                      quantity,
+                      size,
                     },
                     headers: {
                       authorization: token,
                     },
                   })
                     .then((res) => {
+                      console.log(res);
                       history.push("/cart");
-                      console.log(res.data);
+                      // console.log(res.data);
                     })
                     .catch((error) => {
                       console.log(error);
@@ -158,7 +163,9 @@ export default function ProductPage(prod) {
                       name="quantity"
                       autoComplete="quantity"
                       onChange={(event) => {
+                        // console.log(event.target.value);
                         setQuantity(event.target.value);
+                        // console.log(quantity);
                       }}
                     />
                   </Grid>

@@ -25,7 +25,7 @@ exports.addItems = async (req, res, next) => {
 };
 
 exports.findAllItems = async (req, res, next) => {
-  console.log("\n Here it is", req);
+  // console.log("\n Here it is", req);
   await Order.findAll({
     where: { ordered: false, buyer_id: req.user },
     include: [Item],
@@ -59,7 +59,7 @@ exports.updateItems = async (req, res, next) => {
 
 exports.orderHistory = async (req, res, next) => {
   Order.findAll({
-    where: { ordered: false, buyer_id: req.user },
+    where: { ordered: true, buyer_id: req.user },
     include: [Item, Payment, Address],
   })
     .then((order) => res.json(order))

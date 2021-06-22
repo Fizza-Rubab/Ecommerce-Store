@@ -33,13 +33,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Product({ product }) {
+  console.log(product);
   const classes = useStyles();
   const history = useHistory();
   return (
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image="/static/img/shoes.png"
+        image={
+          product.image
+            ? `data:${product.image.imageType};base64,${product.image.imageData}`
+            : ""
+        }
+        alt={product.name}
         title={product.name}
       />
       <CardContent>

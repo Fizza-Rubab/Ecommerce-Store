@@ -83,7 +83,7 @@ export default function Login() {
             onSubmit={(e) => {
               e.preventDefault();
               axios
-                .post("http://localhost:5000/api/users/login", {
+                .post("/api/users/login", {
                   email,
                   password,
                 })
@@ -135,7 +135,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="http://localhost:3000/register" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account yet? Sign Up"}
                 </Link>
               </Grid>
